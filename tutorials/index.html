@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>实操教程 · 智能贸易 | Intelligent Trade</title>
+  <meta name="description" content="海外市场调研的三项实操教程：海关数据 API、电商热销数据分析、地理信息平台找进口商，含完整可运行代码。">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .doc{width:min(1080px,100%);margin:auto;padding:60px max(4vw,22px) 100px}
+    .doc h1{font-size:clamp(30px,4vw,48px);letter-spacing:-.04em;margin:0 0 12px}
+    .doc h2{font-size:clamp(22px,2.6vw,30px);letter-spacing:-.03em;margin:55px 0 14px;padding-top:22px;border-top:2px solid var(--ink)}
+    .doc h3{font-size:17px;margin:26px 0 8px}
+    .doc p,.doc li{line-height:1.85;color:#33414c;font-size:15px}
+    .doc ul{padding-left:22px}
+    .doc code{font-family:'DM Mono',ui-monospace,monospace;font-size:13px;background:#eef2f4;padding:1px 5px;border-radius:2px}
+    .doc pre{background:#0d2233;color:#e8f1f5;padding:18px 20px;overflow-x:auto;font-size:12.5px;line-height:1.65;
+      border-left:3px solid var(--blue);margin:14px 0 6px}
+    .doc pre code{background:none;color:inherit;padding:0;font-size:12.5px}
+    .note{background:#fff8e6;border-left:3px solid #c9a227;padding:14px 18px;margin:16px 0;font-size:14px;line-height:1.8}
+    .warn{background:#fdeeee;border-left:3px solid #b3261e;padding:14px 18px;margin:16px 0;font-size:14px;line-height:1.8}
+    .steps{counter-reset:s;list-style:none;padding:0}
+    .steps li{counter-increment:s;position:relative;padding-left:38px;margin:10px 0}
+    .steps li:before{content:counter(s);position:absolute;left:0;top:1px;width:24px;height:24px;border-radius:50%;
+      background:var(--ink);color:var(--acid);font:600 12px 'DM Mono';display:grid;place-items:center}
+    .dl{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 0}
+    .dl a{border:1px solid var(--ink);padding:11px 16px;font-size:13px;font-weight:700}
+    .dl a:hover{background:var(--ink);color:#fff}
+    .toc{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0 0}
+    .toc a{border:1px solid var(--line);padding:9px 14px;font-size:13px}
+    .toc a:hover{border-color:var(--ink)}
+    .meta{font:500 11px 'DM Mono';letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="智能贸易课程首页">
+      <span class="brand-mark">IT</span>
+      <span><strong>智能贸易</strong><small>INTELLIGENT TRADE</small></span>
+    </a>
+    <nav aria-label="主导航" class="open" style="display:flex">
+      <a href="../index.html#chapters">课件</a>
+      <a href="../index.html#modules">教学模块</a>
+      <a href="../index.html#assessment">考核方式</a>
+      <a class="github" href="https://github.com/elysium4eva" target="_blank" rel="noreferrer">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main class="doc">
+    <p class="meta">MODULE 03 · HANDS-ON</p>
+    <h1>海外市场调研实操教程</h1>
+    <p>本页是《模块三 第一讲：海外市场调研智能化》第 4–6 节的配套教程，包含三份<strong>完整可运行的 Python 脚本</strong>与逐步说明。三份教程共同解决一个问题：<strong>怎样用代码批量获取公开的市场数据</strong>，而不是手工一次次点网页。</p>
+
+    <div class="toc">
+      <a href="#t1">① 海关数据 API</a>
+      <a href="#t2">② 电商热销数据</a>
+      <a href="#t3">③ 地理信息平台找进口商</a>
+      <a href="#env">环境准备</a>
+      <a href="#rule">合规须知</a>
+    </div>
+
+    <h2 id="env">零、环境准备</h2>
+    <ol class="steps">
+      <li>安装 Python 3.9 或以上版本（官网下载安装时勾选 “Add Python to PATH”）。</li>
+      <li>安装依赖库：<code>pip install requests pandas</code>（中文分词可选：<code>pip install jieba</code>）。</li>
+      <li>建议建立三个目录：<code>raw/</code>（原始数据，只读）、<code>clean/</code>（清洗结果）、<code>code/</code>（脚本），保证任何结论都能回溯到原始文件。</li>
+      <li>下载本页三份脚本到 <code>code/</code> 目录，用命令行运行。</li>
+    </ol>
+
+    <h2 id="rule">合规须知（先读这一段）</h2>
+    <div class="warn">
+      <p><strong>本课程只教合法路径。</strong>三份脚本都只调用<strong>官方开放接口</strong>，或处理<strong>你已合法获得的数据文件</strong>。课程不提供、也不建议任何绕过反爬、伪造请求、突破平台限制的做法——这类行为违反平台条款，可能导致账号封禁与法律责任。</p>
+      <p>使用任何数据源前，请确认三件事：<strong>数据从哪来</strong>（来源是否公开/授权）、<strong>能用来做什么</strong>（条款是否允许商业使用）、<strong>能保存多久</strong>（是否允许长期存储）。</p>
+    </div>
+
+    <h2 id="t1">一、用 API 批量获取海关数据</h2>
+    <p><strong>解决什么问题：</strong>判断某个国家某个品类的市场规模与增长趋势，需要连续多年的进口数据。手工在网站上一国一年地查，几十次点击才能凑齐一张表；用脚本则几分钟完成。</p>
+
+    <h3>数据源</h3>
+    <ul>
+      <li><strong>UN Comtrade API</strong>（推荐入门）：免费、覆盖全球，需注册获取订阅密钥；提供预览接口可先行试跑。</li>
+      <li>其他可用来源：ITC Trade Map、美国普查局外贸数据、欧盟 Eurostat——各有 API 与配额，用法类似。</li>
+      <li>商业提单数据服务商：能看到具体买卖双方（公司名），颗粒度最细，但需付费且要确认授权范围。</li>
+    </ul>
+
+    <h3>五个关键参数</h3>
+    <ul>
+      <li><code>reporterCode</code>：报告国代码，如 276=德国、392=日本、410=韩国。</li>
+      <li><code>period</code>：年份，可写单年或逗号分隔的多年。</li>
+      <li><code>cmdCode</code>：HS 商品编码，建议先用 4 位或 6 位确认口径。</li>
+      <li><code>flowCode</code>：M=进口、X=出口。<strong>查目标市场需求要用 M（对方进口）</strong>。</li>
+      <li><code>partnerCode</code>：伙伴国；查“从中国进口”填 156，填 0 表示全球合计。</li>
+    </ul>
+
+    <h3>操作步骤</h3>
+    <ol class="steps">
+      <li>先不带密钥，用预览接口跑通一次请求，确认返回结构。</li>
+      <li>到官网注册并申请订阅密钥，写入环境变量 <code>COMTRADE_KEY</code>。</li>
+      <li>用脚本批量拉取「多国 × 多年 × 多编码」，脚本会自动限速并支持断点续跑。</li>
+      <li><strong>校验：</strong>抽一个国家某一年，与官网页面手工查询结果比对，数值应一致。</li>
+      <li>把清洗后的表交给后续的趋势分析与评分卡（课件第 8 节）。</li>
+    </ol>
+
+    <h3>完整脚本</h3>
+    <pre><code>#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+comtrade_batch.py —— 用 UN Comtrade API 批量拉取海关贸易数据
+
+用途：
+    按「报告国 × 年份 × HS 编码」批量查询进口/出口数据，自动限速、断点续跑，
+    并输出「原始返回 + 清洗后表格 + 运行日志」三份文件。
+
+准备：
+    pip install requests pandas
+
+用法示例：
+    # 1) 先小规模试跑（预览接口，无需密钥）
+    python comtrade_batch.py --reporter 276 --years 2023 --codes 8518
+
+    # 2) 正式批量（使用订阅密钥，参数写在 --key 或环境变量 COMTRADE_KEY）
+    set COMTRADE_KEY=你的订阅密钥        # Windows
+    export COMTRADE_KEY=你的订阅密钥     # macOS / Linux
+    python comtrade_batch.py --reporter 276,392,410 --years 2022,2023,2024 \
+                             --codes 8518,8504 --flow M
+
+说明：
+    本脚本只读取公开的官方统计接口，请遵守数据源的使用条款与配额限制。
+    完整参数说明见课程主页「实操教程」栏目。
+"""
+
+import argparse
+import json
+import os
+import sys
+import time
+
+import pandas as pd
+import requests
+
+# ---------------------------------------------------------------- 配置
+PREVIEW_API = "https://comtradeapi.un.org/public/v1/preview/C/A/HS"
+FULL_API = "https://comtradeapi.un.org/data/v1/get/C/A/HS"
+
+RAW_DIR, CLEAN_DIR = "raw", "clean"
+STATE_FILE = "raw/_state.json"          # 断点续跑：记录已完成的参数组合
+SLEEP_SEC = 1.2                          # 每次请求间隔，避免触发配额限制
+MAX_RETRY = 3                            # 单个请求的最大重试次数
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description="批量拉取 UN Comtrade 贸易数据")
+    p.add_argument("--reporter", default="276",
+                   help="报告国代码，多个用逗号分隔，如 276,392,410")
+    p.add_argument("--years", default="2023", help="年份，多个用逗号分隔")
+    p.add_argument("--codes", default="8518", help="HS 编码，多个用逗号分隔")
+    p.add_argument("--flow", default="M", choices=["M", "X"],
+                   help="M=进口，X=出口")
+    p.add_argument("--partner", default="0", help="伙伴国代码，0=全球合计")
+    p.add_argument("--key", default=os.environ.get("COMTRADE_KEY", ""),
+                   help="订阅密钥；留空则使用预览接口")
+    p.add_argument("--out", default="imports_clean.csv", help="清洗后输出文件名")
+    return p.parse_args()
+
+
+def load_state():
+    if os.path.exists(STATE_FILE):
+        with open(STATE_FILE, encoding="utf-8") as f:
+            return set(tuple(x) for x in json.load(f))
+    return set()
+
+
+def save_state(done):
+    os.makedirs(RAW_DIR, exist_ok=True)
+    with open(STATE_FILE, "w", encoding="utf-8") as f:
+        json.dump(sorted(list(done)), f, ensure_ascii=False)
+
+
+def fetch(api, headers, reporter, year, code, flow, partner):
+    """单次请求；失败自动重试，返回记录列表（失败返回 None）。"""
+    params = {
+        "reporterCode": reporter,
+        "period": year,
+        "cmdCode": code,
+        "flowCode": flow,
+        "partnerCode": partner,
+    }
+    for attempt in range(1, MAX_RETRY + 1):
+        try:
+            r = requests.get(api, params=params, headers=headers, timeout=30)
+            if r.status_code == 429:                      # 配额超限：等待后重试
+                time.sleep(5 * attempt)
+                continue
+            r.raise_for_status()
+            return r.json().get("data", [])
+        except Exception as exc:                          # noqa: BLE001
+            if attempt == MAX_RETRY:
+                print(f"    [失败] {reporter}/{year}/{code}：{exc}")
+                return None
+            time.sleep(2 * attempt)
+    return None
+
+
+def main():
+    args = parse_args()
+    os.makedirs(RAW_DIR, exist_ok=True)
+    os.makedirs(CLEAN_DIR, exist_ok=True)
+
+    api = FULL_API if args.key else PREVIEW_API
+    headers = {"Ocp-Apim-Subscription-Key": args.key} if args.key else {}
+    print(f"接口：{'正式接口' if args.key else '预览接口（无密钥）'}")
+
+    reporters = [x.strip() for x in args.reporter.split(",") if x.strip()]
+    years = [x.strip() for x in args.years.split(",") if x.strip()]
+    codes = [x.strip() for x in args.codes.split(",") if x.strip()]
+
+    done = load_state()
+    records, failed = [], []
+    total = len(reporters) * len(years) * len(codes)
+    n = 0
+
+    for rep in reporters:
+        for yr in years:
+            for code in codes:
+                n += 1
+                key = (rep, yr, code, args.flow, args.partner)
+                if key in done:
+                    print(f"[{n}/{total}] 跳过（已完成）{rep}/{yr}/{code}")
+                    continue
+                print(f"[{n}/{total}] 拉取 {rep}/{yr}/{code} ...")
+                data = fetch(api, headers, rep, yr, code, args.flow, args.partner)
+                if data is None:
+                    failed.append(key)
+                else:
+                    records += data
+                    done.add(key)
+                    save_state(done)                      # 即时落盘，可断点续跑
+                time.sleep(SLEEP_SEC)
+
+    # ------------------------------------------------ 落盘与清洗
+    with open(os.path.join(RAW_DIR, "comtrade_all.json"), "w", encoding="utf-8") as f:
+        json.dump(records, f, ensure_ascii=False)
+    print(f"\n原始记录：{len(records)} 条；失败组合：{len(failed)} 个")
+
+    if not records:
+        print("没有取到数据：请检查参数、密钥或配额。")
+        return 1
+
+    df = pd.json_normalize(records)
+    cols = ["refYear", "reporterCode", "reporterDesc", "cmdCode", "cmdDesc",
+            "partnerDesc", "flowDesc", "primaryValue", "netWgt"]
+    cols = [c for c in cols if c in df.columns]           # 兼容字段差异
+    df = df[cols]
+
+    # 去重：同一年可能同时存在月度与年度记录，必须按年份去重
+    keys = [c for c in ["refYear", "reporterCode", "cmdCode"] if c in df.columns]
+    df = df.sort_values("refYear").drop_duplicates(subset=keys, keep="last")
+
+    out_path = os.path.join(CLEAN_DIR, args.out)
+    df.to_csv(out_path, index=False, encoding="utf-8-sig")
+    print(f"清洗后：{len(df)} 行 -&gt; {out_path}")
+
+    if "reporterDesc" in df.columns and "primaryValue" in df.columns:
+        print("\n按报告国汇总（金额）：")
+        print(df.groupby("reporterDesc")["primaryValue"].sum().round(0).to_string())
+
+    if failed:
+        print("\n以下组合未取到数据，可再次运行本脚本重试：")
+        for k in failed:
+            print("   ", k)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+</code></pre>
+    <div class="dl">
+      <a href="../code/comtrade_batch.py" download>下载 comtrade_batch.py</a>
+    </div>
+
+    <h3>常见报错</h3>
+    <ul>
+      <li><code>401 / 403</code>：密钥无效或未加入请求头。</li>
+      <li><code>429</code>：超过配额，降低频率或申请更高配额；脚本已内置等待重试。</li>
+      <li>返回 0 条：参数组合本身无数据，或该年份尚未发布。</li>
+      <li>数值异常大：同时取到了月度与年度记录，需要按年份去重（脚本已处理）。</li>
+    </ul>
+
+    <h2 id="t2">二、用代码获取电商平台热销品数据</h2>
+    <p><strong>解决什么问题：</strong>看清一个类目的价格带分布、竞品口碑与主流卖点，为产品定位与详情页优化提供依据。</p>
+
+    <div class="warn">
+      <p><strong>必须先读：</strong>电商平台的服务条款通常<strong>禁止未经授权的自动化抓取</strong>。因此本教程的路线是“<strong>合法拿数据 + 用代码分析</strong>”，而不是写爬虫。</p>
+    </div>
+
+    <h3>三条合法路径</h3>
+    <ul>
+      <li><strong>平台官方 API</strong>：合规、稳定，需要卖家或开发者账号；可获取类目、商品、价格与部分销售数据。</li>
+      <li><strong>授权数据服务商</strong>：付费购买，字段规范、覆盖广；注意其数据多为估算值，适合看趋势。</li>
+      <li><strong>公开页面的低频人工核对</strong>：数量小但完全安全，适合抽样校验与异常确认。</li>
+    </ul>
+
+    <h3>操作步骤</h3>
+    <ol class="steps">
+      <li>用上述任一路径，得到一份 JSON 或 CSV 文件，放进 <code>raw/</code> 目录（原始文件不要改动）。</li>
+      <li>运行脚本读取并规范字段：SKU、标题、价格、评分、评论数。</li>
+      <li>清洗：剔除价格或评分为空的记录。</li>
+      <li>按价格分档统计竞品数量与平均评分——<strong>竞品最多且评分最低的档位，通常最值得研究</strong>。</li>
+      <li>筛选“高口碑低竞争”候选款：评论数低于中位数、评分 ≥ 4.3。</li>
+      <li>统计标题卖点词频，看出这个品类的主流叙事。</li>
+      <li>导出 <code>competitor_matrix.csv</code>，进入课件第 7 节的聚类与主题分析。</li>
+    </ol>
+
+    <h3>完整脚本</h3>
+    <pre><code>#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+ecommerce_analyze.py —— 电商热销品数据的清洗与分析
+
+重要前提（务必先读）：
+    本脚本【不做任何网页抓取】。它的输入必须是【你已经合法获得】的数据文件：
+      · 平台官方 API 返回的 JSON
+      · 平台后台或第三方授权数据服务商导出的 CSV / Excel
+      · 公开页面的低频人工核对结果
+    未经授权绕过反爬抓取平台数据违反其服务条款，本课程不提供此类方法。
+
+用途：
+    读取上述文件，完成清洗、价格带分布、高口碑低竞争筛选、卖点词频统计，
+    并导出可直接用于横向竞品分析的对比表。
+
+准备：
+    pip install pandas            # 可选：中文分词 pip install jieba
+
+用法：
+    python ecommerce_analyze.py --input raw/top_products.json
+    python ecommerce_analyze.py --input raw/export.csv --lang auto
+"""
+
+import argparse
+import json
+import os
+import re
+from collections import Counter
+
+import pandas as pd
+
+CLEAN_DIR = "clean"
+STOP_EN = {"with", "for", "and", "the", "a", "of", "to", "in", "on", "pro",
+           "max", "new", "set", "pcs", "pack", "high", "quality", "type",
+           "inch", "inches", "waterproof", "wireless"}   # 按品类自行增删
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description="电商热销数据清洗与分析（输入须为合法获得的数据）")
+    p.add_argument("--input", required=True, help="输入文件：JSON 或 CSV")
+    p.add_argument("--title-field", default="title", help="标题字段名")
+    p.add_argument("--price-field", default="price", help="价格字段名")
+    p.add_argument("--rating-field", default="rating", help="评分字段名")
+    p.add_argument("--review-field", default="reviews", help="评论数字段名")
+    p.add_argument("--topn", type=int, default=15, help="词频统计取前 N 个词")
+    return p.parse_args()
+
+
+def load(path):
+    """读取 JSON 或 CSV，并规范成一张表。字段名以实际文件为准。"""
+    if path.lower().endswith(".csv"):
+        return pd.read_csv(path)
+    with open(path, encoding="utf-8") as f:
+        raw = json.load(f)
+    items = raw.get("items", raw) if isinstance(raw, dict) else raw
+    rows = []
+    for it in items:
+        rows.append({
+            "sku":     it.get("asin") or it.get("id") or it.get("sku"),
+            "title":   (it.get("title") or "")[:120],
+            # 不同来源的价格字段可能是字典，这里做兼容处理
+            "price":   float((it.get("price") or {}).get("value", 0)
+                             if isinstance(it.get("price"), dict)
+                             else (it.get("price") or 0)),
+            "rating":  float(it.get("rating") or 0),
+            "reviews": int(it.get("reviews") or 0),
+            "rank":    int(it.get("bsr") or it.get("rank") or 0),
+        })
+    return pd.DataFrame(rows)
+
+
+def clean(df, args):
+    before = len(df)
+    df = df.rename(columns={args.title_field: "title", args.price_field: "price",
+                            args.rating_field: "rating", args.review_field: "reviews"})
+    df = df[(df["price"] &gt; 0) &amp; (df["rating"] &gt; 0)]
+    print(f"清洗：{before} 行 -&gt; {len(df)} 行（剔除价格或评分为空的记录）")
+    return df
+
+
+def price_band(df):
+    bins = [0, 20, 40, 60, 100, 200, float("inf")]
+    labels = ["&lt;20", "20-40", "40-60", "60-100", "100-200", "&gt;200"]
+    df["band"] = pd.cut(df["price"], bins=bins, labels=labels)
+    stat = df.groupby("band", observed=True).agg(
+        竞品数=("sku", "count"), 均价=("price", "mean"),
+        平均评分=("rating", "mean"), 平均评论数=("reviews", "mean")).round(2)
+    print("\n=== 价格带分布 ===")
+    print(stat.to_string())
+    return df, stat
+
+
+def niche(df):
+    """低竞争（评论数低于中位数）且高口碑（评分 &gt;= 4.3）的候选款。"""
+    med = df["reviews"].median()
+    cand = df[(df["reviews"] &lt; med) &amp; (df["rating"] &gt;= 4.3)]
+    print(f"\n=== 高口碑低竞争候选（评论数中位数 {med:.0f}）===")
+    print(f"命中 {len(cand)} 款")
+    if len(cand):
+        print(cand[["sku", "price", "rating", "reviews"]]
+              .sort_values("rating", ascending=False).head(10).to_string(index=False))
+    hot = df[df["reviews"] &gt;= df["reviews"].quantile(0.9)]
+    if len(hot):
+        print("\n对比：高竞争区（评论数前 10%）价格区间 "
+              f"{hot['price'].min():.1f} - {hot['price'].max():.1f}")
+    return cand
+
+
+def keywords(df, topn):
+    words = []
+    for t in df["title"].fillna(""):
+        words += [w.lower() for w in re.findall(r"[A-Za-z]{3,}", str(t))
+                  if w.lower() not in STOP_EN]
+    print(f"\n=== 标题卖点词频（前 {topn}）===")
+    for w, c in Counter(words).most_common(topn):
+        print(f"  {w:18s} {c:4d}")
+
+
+def cn_keywords(df, topn):
+    """中文标题/评论的粗分词：按 2-4 字连续汉字切分，仅作快速预览。"""
+    try:
+        import jieba                                            # noqa: F401
+    except ImportError:
+        print("\n（未安装 jieba，跳过中文词频统计：pip install jieba）")
+        return
+    import jieba
+    words = []
+    for t in df["title"].fillna(""):
+        words += [w for w in jieba.lcut(str(t)) if len(w) &gt;= 2 and re.match(r"[\u4e00-\u9fa5]+$", w)]
+    print(f"\n=== 中文词频（前 {topn}）===")
+    for w, c in Counter(words).most_common(topn):
+        print(f"  {w:10s} {c:4d}")
+
+
+def main():
+    args = parse_args()
+    os.makedirs(CLEAN_DIR, exist_ok=True)
+
+    print(f"读取：{args.input}")
+    df = load(args.input)
+    df = clean(df, args)
+
+    df, stat = price_band(df)
+    niche(df)
+    keywords(df, args.topn)
+    cn_keywords(df, args.topn)
+
+    out = df[["sku", "title", "price", "band", "rating", "reviews", "rank"]] \
+        .sort_values("reviews", ascending=False)
+    path = os.path.join(CLEAN_DIR, "competitor_matrix.csv")
+    out.to_csv(path, index=False, encoding="utf-8-sig")
+    stat.to_csv(os.path.join(CLEAN_DIR, "price_band.csv"), encoding="utf-8-sig")
+    print(f"\n已导出：{path}（{len(out)} 条）")
+    print("下一步：把这张表交给横向竞品分析（课件第 7 节）做聚类与主题归纳。")
+
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+    <div class="dl">
+      <a href="../code/ecommerce_analyze.py" download>下载 ecommerce_analyze.py</a>
+    </div>
+
+    <h3>数据格式参考</h3>
+    <p>脚本兼容 JSON 与 CSV。JSON 建议形如：</p>
+    <pre><code>{
+  "items": [
+    {"asin": "B0XXXXXXX", "title": "Wireless Earbuds IPX7 ...",
+     "price": {"value": 59.99}, "rating": 4.4, "reviews": 1820, "bsr": 320},
+    {"asin": "B0YYYYYYY", "title": "Bluetooth Speaker ...",
+     "price": {"value": 39.9}, "rating": 4.1, "reviews": 640, "bsr": 910}
+  ]
+}</code></pre>
+
+    <h2 id="t3">三、用地理信息平台批量获取进口商</h2>
+    <p><strong>解决什么问题：</strong>在目标市场里，快速找到“做这个品类的公司”——分销商、零售商、批发商——得到一份带地址与官网的候选客户名单。</p>
+
+    <h3>两条路线</h3>
+    <ul>
+      <li><strong>Google Places API</strong>：全球覆盖最好，按请求计费，需要绑定结算账号与 API Key。</li>
+      <li><strong>OpenStreetMap Overpass API</strong>：完全免费，欧美覆盖较好，条款宽松（ODbL 许可）。</li>
+    </ul>
+
+    <div class="warn">
+      <p><strong>Google Maps Platform 的条款限制（重要）：</strong>通常只允许长期保存有限字段（如 place ID），并禁止用其数据构建或补充其他数据集、禁止未经授权的转售与公开披露。因此脚本默认<strong>只保存 name / website / place_id 三类字段</strong>，其余字段请当场核对使用。</p>
+      <p><strong>OSM 的署名义务：</strong>使用 OSM 数据须标注 “© OpenStreetMap contributors”，并遵守相同方式共享（Share-alike）要求。</p>
+    </div>
+
+    <h3>操作步骤</h3>
+    <ol class="steps">
+      <li>先用 OSM（免费）跑通流程：指定城市名与店铺类别标签，得到一批商户。</li>
+      <li>如需更好覆盖，再申请 Google Maps API Key，设置环境变量 <code>GOOGLE_MAPS_KEY</code>。</li>
+      <li>运行脚本，按城市/关键词批量获取候选公司，并按唯一 ID 去重。</li>
+      <li>补齐业务字段：域名、客户类型、线索等级、下一步动作。</li>
+      <li><strong>三源交叉验证</strong>：地图数据 + 公司官网（确认产品线）+ 协会名录或展会名单（确认身份）。</li>
+      <li>把验证后的名单交给课件第 9 节的 ICP 筛选与第二讲的线索评分。</li>
+    </ol>
+
+    <h3>完整脚本</h3>
+    <pre><code>#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+places_importers.py —— 用地理信息平台按地区批量获取候选客户名单
+
+两条数据路线（可分别使用）：
+    A) Google Places API —— 覆盖最好，按量计费，条款对数据存储限制严格
+    B) OpenStreetMap Overpass API —— 免费，条款宽松，欧美覆盖较好
+
+⚠️ 合规提示（使用前务必阅读）：
+    1. Google Maps Platform 服务条款通常只允许长期保存有限字段（如 place ID），
+       并禁止用其数据构建或补充其他数据集、禁止未经授权的转售与公开披露。
+       因此本脚本默认【只保存 place_id / name / website 三类字段】，
+       其余字段请在得到结果后当场核对使用，不要落盘。
+    2. OSM 数据采用 ODbL 许可：使用时须署名 "© OpenStreetMap contributors"，
+       并遵守相同方式共享（Share-alike）要求。
+    3. 本脚本仅调用官方接口，不包含任何绕过限制的做法。
+
+准备：
+    pip install requests pandas
+
+用法：
+    # A) Google（需要 API Key 与开通 Places API）
+    set GOOGLE_MAPS_KEY=你的Key          # Windows
+    export GOOGLE_MAPS_KEY=你的Key       # macOS / Linux
+    python places_importers.py --mode google \
+        --query "consumer electronics distributor in Hamburg"
+
+    # B) OpenStreetMap（免费）
+    python places_importers.py --mode osm --city Hamburg \
+        --shop "electronics|hifi|mobile_phone"
+"""
+
+import argparse
+import os
+import time
+
+import pandas as pd
+import requests
+
+OUT_DIR = "clean"
+PLACES_URL = "https://places.googleapis.com/v1/places:searchText"
+OVERPASS_URL = "https://overpass-api.de/api/interpreter"
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description="地理信息平台批量获取候选客户名单")
+    p.add_argument("--mode", choices=["google", "osm"], default="osm")
+    p.add_argument("--query", default="consumer electronics distributor",
+                   help="Google 文本搜索关键词")
+    p.add_argument("--city", default="Hamburg", help="OSM 查询的城市名")
+    p.add_argument("--shop", default="electronics",
+                   help="OSM 店铺类别标签，多个用竖线分隔，如 electronics|hifi")
+    p.add_argument("--pages", type=int, default=3, help="Google 最多取几页")
+    p.add_argument("--out", default="lead_list.csv", help="输出文件名")
+    p.add_argument("--key", default=os.environ.get("GOOGLE_MAPS_KEY", ""))
+    return p.parse_args()
+
+
+# ============================================================ A) Google Places
+def google_search(query, key, token=None):
+    headers = {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": key,
+        # 字段掩码：只声明需要的字段，既省费用也降低合规风险
+        "X-Goog-FieldMask": "places.displayName,places.formattedAddress,"
+                            "places.websiteUri,places.id,nextPageToken",
+    }
+    body = {"textQuery": query, "languageCode": "en", "pageSize": 20}
+    if token:
+        body["pageToken"] = token
+    r = requests.post(PLACES_URL, json=body, headers=headers, timeout=30)
+    r.raise_for_status()
+    return r.json()
+
+
+def google_all(query, key, max_pages):
+    out, token, seen = [], None, set()
+    for i in range(max_pages):
+        j = google_search(query, key, token)
+        batch = j.get("places", [])
+        for p in batch:
+            if p["id"] not in seen:
+                seen.add(p["id"])
+                out.append(p)
+        print(f"  第 {i + 1} 页：本页 {len(batch)} 条，累计 {len(out)} 条")
+        token = j.get("nextPageToken")
+        if not token:
+            break
+        time.sleep(2)                    # 分页需间隔，分页令牌才会生效
+    return out
+
+
+def run_google(args):
+    if not args.key:
+        print("缺少 API Key：请设置环境变量 GOOGLE_MAPS_KEY 或使用 --key 参数。")
+        print("（也可先用 --mode osm 免费跑通流程）")
+        return 1
+    places = google_all(args.query, args.key, args.pages)
+    rows = [{
+        "name":     p["displayName"]["text"],
+        "website":  p.get("websiteUri", ""),
+        "place_id": p["id"],          # 条款允许长期保存的字段
+    } for p in places]
+    df = pd.DataFrame(rows).drop_duplicates("place_id")
+    print(f"\n去重后 {len(df)} 家公司")
+    print("提示：地址等其余字段请当场核对使用，不要长期落盘（见脚本头部合规说明）。")
+    return df
+
+
+# ============================================================ B) OpenStreetMap
+def run_osm(args):
+    query = f"""
+[out:json][timeout:90];
+area["name"="{args.city}"]["admin_level"="4"]-&gt;.a;
+node["shop"~"{args.shop}"](area.a);
+out center 300;
+"""
+    print("查询 Overpass API ...")
+    r = requests.post(OVERPASS_URL, data={"data": query}, timeout=180)
+    r.raise_for_status()
+    els = r.json().get("elements", [])
+    print(f"返回 {len(els)} 个地点")
+
+    rows = [{
+        "name":    e.get("tags", {}).get("name", ""),
+        "shop":    e.get("tags", {}).get("shop", ""),
+        "street":  e.get("tags", {}).get("addr:street", ""),
+        "website": e.get("tags", {}).get("website", ""),
+        "lat":     e.get("lat"),
+        "lon":     e.get("lon"),
+    } for e in els]
+    df = pd.DataFrame(rows).dropna(subset=["name"]).drop_duplicates("name")
+    print(f"去重后 {len(df)} 家商户")
+    print("署名要求：使用本数据须注明 © OpenStreetMap contributors（ODbL 许可）。")
+    return df
+
+
+def enrich(df):
+    """补上客户开发流程需要的字段，便于直接跟进。"""
+    if "website" in df.columns:
+        df["domain"] = (df["website"].fillna("")
+                        .str.extract(r"https?://([^/]+)", expand=False)
+                        .str.replace(r"^www\.", "", regex=True))
+    type_map = {"electronics": "电子零售商", "hifi": "音响零售商",
+                "mobile_phone": "手机零售商", "wholesale": "批发商"}
+    if "shop" in df.columns:
+        df["customer_type"] = df["shop"].map(type_map).fillna("待确认")
+    df["lead_grade"] = ""                       # A/B/C 线索等级（手工填写）
+    df["next_action"] = "核对官网产品线"
+    df["next_date"] = ""
+    return df
+
+
+def main():
+    args = parse_args()
+    os.makedirs(OUT_DIR, exist_ok=True)
+
+    df = run_google(args) if args.mode == "google" else run_osm(args)
+    if isinstance(df, int):
+        return df
+
+    df = enrich(df)
+    path = os.path.join(OUT_DIR, args.out)
+    df.to_csv(path, index=False, encoding="utf-8-sig")
+    print(f"\n已导出：{path}（{len(df)} 条）")
+    print("下一步：按课件第 9 节的 ICP 条件筛选，再进入线索评分与跟进流程。")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+</code></pre>
+    <div class="dl">
+      <a href="../code/places_importers.py" download>下载 places_importers.py</a>
+    </div>
+
+    <h3>OSM 常用店铺类别标签</h3>
+    <ul>
+      <li><code>electronics</code> 电子产品零售 · <code>hifi</code> 音响 · <code>mobile_phone</code> 手机</li>
+      <li><code>wholesale</code> 批发 · <code>doityourself</code> 五金建材 · <code>trade</code> 贸易</li>
+      <li>标签规范见 OpenStreetMap Wiki；可先用 <code>electronics|hifi</code> 这样的竖线组合一次查多类。</li>
+    </ul>
+
+    <h2>附：三份脚本速查</h2>
+    <ul>
+      <li><code>comtrade_batch.py</code> —— 批量拉取海关贸易数据（限速、重试、断点续跑、清洗导出）。</li>
+      <li><code>ecommerce_analyze.py</code> —— 电商热销数据清洗、价格带分布、高口碑低竞争筛选、卖点词频。</li>
+      <li><code>places_importers.py</code> —— 地理信息平台批量获取候选客户名单（Google Places / OSM Overpass）。</li>
+    </ul>
+    <div class="dl">
+      <a href="../code/comtrade_batch.py" download>① comtrade_batch.py</a>
+      <a href="../code/ecommerce_analyze.py" download>② ecommerce_analyze.py</a>
+      <a href="../code/places_importers.py" download>③ places_importers.py</a>
+      <a href="../courseware/module-3-chapter-1-overseas-market-research.pdf" target="_blank">打开第一讲课件 ↗</a>
+    </div>
+    <p style="margin-top:34px;color:var(--muted);font-size:13px">深圳大学《智能贸易》课程组 · 脚本随课程持续更新；使用中遇到问题欢迎在课堂上提出。</p>
+  </main>
+
+  <footer>
+    <div><span class="brand-mark">IT</span><p><strong>智能贸易课程</strong><br>Intelligent Trade</p></div>
+    <p>技术服务于真实的商业判断。</p>
+    <div class="footer-links"><a href="../index.html">返回首页 ↑</a><a href="https://github.com/elysium4eva" target="_blank" rel="noreferrer">GitHub ↗</a></div>
+  </footer>
+</body>
+</html>
