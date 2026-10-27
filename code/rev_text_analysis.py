@@ -254,6 +254,21 @@ def demo_sentiment():
     print("实务做法：先按星级分桶，再在桶内做情感分析，误差会小很多。")
 
 
+
+# ---------------------------------------------------------------- 可视化
+def save_visual(path='visuals/rev_text_analysis.svg'):
+    """输出「情感得分 vs 星级」散点图，标出模型失效的位置。"""
+    from chartlib import ScatterChart
+    xs, ys = [], []
+    for star, verified, text in REVIEWS:
+        sc, _ = sentiment(text)
+        xs.append(float(star))
+        ys.append(float(round(sc, 2)))
+    ch = ScatterChart('情感得分 vs 星级：一致率 10/12', '星级', '情感得分')
+    ch.add_group('评论', xs, ys)
+    ch.add_note('不一致的两条：反讽与双重否定')
+    return ch.save(path)
+
 if __name__ == "__main__":
     demo_keywords()
     demo_lda()
