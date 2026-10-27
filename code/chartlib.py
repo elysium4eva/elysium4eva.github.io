@@ -83,6 +83,22 @@ class _Canvas:
         self.notes.append(text)
         return self
 
+    def _reserve_notes(self):
+        """有注释时，在画布底部预留空间，避免与 x 轴刻度重叠。"""
+        # 注释改画在绘图区上方，不再需要底部留白
+        return
+
+    def _draw_notes(self):
+        """把注释画在画布最底部，超长截断，只画一次。"""
+        if not self.notes:
+            return
+        for i, n in enumerate(self.notes):
+            ny = self.mt - 8 - (len(self.notes) - 1 - i) * 13
+            txt = n if len(n) <= 70 else n[:68] + "\u2026"
+            self.parts.append(
+                f'<text x="{self.ml}" y="{ny:.0f}" font-family="system-ui,sans-serif" '
+                f'font-size="9.5" fill="#6b7883">{_esc(txt)}</text>')
+
     def color(self):
         c = PALETTE[self._si % len(PALETTE)]
         self._si += 1
@@ -94,6 +110,7 @@ class _Canvas:
         return self.mt + self.plot_h * (1 - (v - lo) / (hi - lo))
 
     def frame(self, yticks, lo, hi, ylabel_suffix=""):
+        self._reserve_notes()
         p = self.parts
         p.append(f'<rect x="0" y="0" width="{self.W}" height="{self.H}" fill="#ffffff"/>')
         if self.title:
@@ -123,16 +140,13 @@ class _Canvas:
             p.append(f'<text x="{cx}" y="{cy:.0f}" text-anchor="middle" '
                      f'font-family="system-ui,sans-serif" font-size="11" fill="#5a6672" '
                      f'transform="rotate(-90 {cx} {cy:.0f})">{_esc(self.ylabel)}</text>')
-        for i, n in enumerate(self.notes):
-            ny = self.mt + self.plot_h - 8 - i * 13
-            self.parts.append(f'<text x="{self.ml + 10}" y="{ny:.0f}" font-family="system-ui,sans-serif" '
-                              f'font-size="9.5" fill="#6b7883">{_esc(n)}</text>')
+        self._draw_notes()
 
     def legend_box(self):
         if len(self.legend) <= 1:
             return
         x = self.ml + 8
-        y = self.mt + 6
+        y = self.mt + 6 + 14 * len(self.notes)
         for i, (name, col) in enumerate(self.legend):
             yy = y + i * 15
             self.parts.append(f'<rect x="{x}" y="{yy - 7}" width="10" height="10" fill="{col}"/>')
@@ -216,6 +230,7 @@ class HBarChart(_Canvas):
         n = len(self.labels)
         if n == 0:
             raise ValueError("没有数据")
+        self._reserve_notes()
         lo, hi, ticks = nice_ticks(0, max(self.values))
         # 横向图：x 轴是数值，y 轴是类别
         p = self.parts
@@ -246,9 +261,10 @@ class HBarChart(_Canvas):
                      f'font-family="ui-monospace,monospace" font-size="9.5" fill="#33414c">'
                      f'{_esc(_fmt(v))}</text>')
         if self.xlabel:
-            p.append(f'<text x="{self.ml + self.plot_w/2:.0f}" y="{self.H - 12}" '
+            p.append(f'<text x="{self.ml + self.plot_w/2:.0f}" y="{self.mt + self.plot_h + 34}" '
                      f'text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" '
                      f'fill="#5a6672">{_esc(self.xlabel)}</text>')
+        self._draw_notes()
         return super().save(path)
 
 
@@ -354,7 +370,7 @@ class ScatterChart(_Canvas):
             self.parts.append(f'<line x1="{x:.1f}" y1="{self.mt + self.plot_h}" '
                               f'x2="{x:.1f}" y2="{self.mt + self.plot_h + 4}" '
                               f'stroke="#9aa7b2"/>')
-            self.parts.append(f'<text x="{x:.1f}" y="{self.mt + self.plot_h + 15}" '
+            self.parts.append(f'<text x="{x:.1f}" y="{self.mt + self.plot_h + 16}" '
                               f'text-anchor="middle" font-family="ui-monospace,monospace" '
                               f'font-size="9.5" fill="#6b7883">{_esc(_fmt(t))}</text>')
         for name, xs, ys, col, mk, labels in self.groups:
@@ -382,9 +398,5 @@ class ScatterChart(_Canvas):
                                       f'font-family="system-ui,sans-serif" font-size="9" '
                                       f'fill="#33414c">{_esc(labels[i])}</text>')
         self.legend_box()
-        if self.notes:
-            for i, n in enumerate(self.notes):
-                self.parts.append(f'<text x="{self.ml + 8}" y="{self.mt + self.plot_h - 10 - i*13}" '
-                                  f'font-family="system-ui,sans-serif" font-size="9.5" '
-                                  f'fill="#6b7883">{_esc(n)}</text>')
+
         return super().save(path)
