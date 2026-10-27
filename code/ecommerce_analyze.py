@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 ecommerce_analyze.py —— 电商热销品数据的清洗与分析
@@ -153,6 +153,35 @@ def main():
     stat.to_csv(os.path.join(CLEAN_DIR, "price_band.csv"), encoding="utf-8-sig")
     print(f"\n已导出：{path}（{len(out)} 条）")
     print("下一步：把这张表交给横向竞品分析（课件第 7 节）做聚类与主题归纳。")
+
+
+# ---------------------------------------------------------------- 可视化
+def save_visual(path='visuals/ecommerce_analyze.svg'):
+    """用一组合成的竞品数据演示「价格带分布」图。
+
+    真实使用时请把你自己的 CSV/Excel 交给 load() + clean() 后再画。
+    """
+    import numpy as np
+    from chartlib import BarChart
+    rng = np.random.default_rng(7)
+    n = 220
+    # 合成三种价格带的竞品：低价多、中价次之、高价少（典型的红海形态）
+    prices = np.concatenate([
+        rng.normal(16, 3.5, int(n * 0.45)),
+        rng.normal(34, 6.0, int(n * 0.35)),
+        rng.normal(88, 18.0, n - int(n * 0.45) - int(n * 0.35)),
+    ]).clip(5, 260)
+    df = pd.DataFrame({
+        'sku': [f'SKU{i:04d}' for i in range(len(prices))],
+        'price': prices.round(2),
+        'rating': rng.normal(4.3, 0.25, len(prices)).clip(3.0, 5.0).round(2),
+        'reviews': rng.lognormal(4.2, 1.0, len(prices)).astype(int),
+    })
+    _, stat = price_band(df)
+    ch = BarChart('竞品价格带分布（示例数据，n=220）', '价格带（美元）', '竞品数')
+    ch.add_series('竞品数', [str(i) for i in stat.index], [float(v) for v in stat['竞品数']])
+    ch.add_note('竞品最密集的价格带 = 红海；稀疏处才可能是空档，但仍需核对需求')
+    return ch.save(path)
 
 
 if __name__ == "__main__":
