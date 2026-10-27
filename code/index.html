@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>课程程序库 · 智能贸易 | Intelligent Trade</title>
+  <meta name="description" content="《智能贸易》课程全部 11 个可运行程序：海关数据、选品算法、评论分析、内容生成。含用途说明、输入输出与源码链接。">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .doc{width:min(1120px,100%);margin:auto;padding:60px max(4vw,22px) 100px}
+    .doc h1{font-size:clamp(30px,4vw,48px);letter-spacing:-.04em;margin:0 0 12px}
+    .doc h2{font-size:clamp(22px,2.6vw,30px);letter-spacing:-.03em;margin:55px 0 14px;padding-top:22px;border-top:2px solid var(--ink)}
+    .doc p,.doc li{line-height:1.85;color:#33414c;font-size:15px}
+    .doc code{font-family:'DM Mono',ui-monospace,monospace;font-size:13px;background:#eef2f4;padding:1px 5px;border-radius:2px}
+    .doc pre{background:#0d2233;color:#e8f1f5;padding:18px 20px;overflow-x:auto;font-size:12.5px;line-height:1.65;
+      border-left:3px solid var(--blue);margin:14px 0 6px}
+    .doc pre code{background:none;color:inherit;padding:0;font-size:12.5px}
+    .note{background:#fff8e6;border-left:3px solid #c9a227;padding:14px 18px;margin:16px 0;font-size:14px;line-height:1.8}
+    .warn{background:#fdeeee;border-left:3px solid #b3261e;padding:14px 18px;margin:16px 0;font-size:14px;line-height:1.8}
+    .meta{font:500 11px 'DM Mono';letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+    .toc{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0 0}
+    .toc a{border:1px solid var(--line);padding:9px 14px;font-size:13px}
+    .toc a:hover{border-color:var(--ink)}
+    .prog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px;margin:22px 0 0}
+    .prog{border:1px solid var(--line);padding:20px 22px;background:#fff;display:flex;flex-direction:column}
+    .prog:hover{border-color:var(--ink)}
+    .prog .fn{font:600 13px 'DM Mono',ui-monospace,monospace;color:var(--blue);word-break:break-all}
+    .prog h3{font-size:16px;margin:8px 0 10px;letter-spacing:-.01em}
+    .prog p{font-size:13.5px;line-height:1.7;margin:0 0 10px;color:#33414c}
+    .prog dl{margin:0 0 12px;font-size:12.5px}
+    .prog dt{font-weight:700;color:var(--muted);float:left;width:52px;clear:left;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.06em;padding-top:2px}
+    .prog dd{margin:0 0 5px 56px;line-height:1.6}
+    .prog .tag{display:inline-block;font:500 10.5px 'DM Mono',monospace;border:1px solid var(--line);padding:2px 7px;margin:0 5px 5px 0;color:var(--muted)}
+    .prog .src{margin-top:auto;padding-top:10px;border-top:1px dashed var(--line)}
+    .prog .src a{font-size:12.5px;font-weight:700}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="智能贸易课程首页">
+      <span class="brand-mark">IT</span>
+      <span><strong>智能贸易</strong><small>INTELLIGENT TRADE</small></span>
+    </a>
+    <nav>
+      <a href="../index.html">课程首页</a>
+      <a href="../tutorials/index.html">实操教程</a>
+      <a href="index.html" aria-current="page">课程程序</a>
+      <a href="../final-project/index.html">期末项目</a>
+    </nav>
+  </header>
+
+  <main class="doc">
+    <p class="meta">COURSE PROGRAMS · 11 个可运行脚本</p>
+    <h1>课程程序库</h1>
+    <p>这里放《智能贸易》各章用到的全部程序。每一个都能独立运行，输出是<strong>给人看的表格与解释</strong>，
+       而不是一堆数字——目的是让你看清「算法到底在算什么、什么时候会失效」。</p>
+    <p>课件里讲方法，这里给代码。看代码不是目的，<strong>改参数、看输出怎么变</strong>才是。</p>
+
+    <div class="toc">
+      <a href="#env">运行环境</a>
+      <a href="#m3">模块三 · 市场调研</a>
+      <a href="#sel">选品算法</a>
+      <a href="#rev">评论算法</a>
+      <a href="#gen">内容生成</a>
+      <a href="#compliance">合规声明</a>
+    </div>
+
+    <h2 id="env">运行环境与约定</h2>
+    <p>全部脚本只用 <code>numpy</code> 与 <code>pandas</code>（模块三的三个还需要 <code>requests</code>），
+       <strong>不依赖 scikit-learn / statsmodels / transformers</strong>。
+       算法用 numpy 手写，是为了让每一步都看得见——需要上工业级库时，脚本注释里会写清替换路径。</p>
+    <pre><code># 1. 安装依赖
+pip install numpy pandas requests
+
+# 2. 进入 code 目录，直接跑
+cd code
+python sel_scorecard.py
+
+# 3. 每个脚本顶部都有文档字符串，写清「用途 / 输入 / 输出 / 依赖 / 对应课件章节」
+python -c "import sel_scorecard; print(sel_scorecard.__doc__)"</code></pre>
+    <div class="note"><strong>约定：</strong>所有脚本内置的示例数据都是<strong>教学用合成数据</strong>，
+      不对应任何真实商品、店铺或 ASIN。换成自己的数据时，只需替换脚本顶部的那几个变量。</div>
+
+    <h2 id="m3">模块三 · 市场调研与客户开发</h2>
+    <div class="prog-grid">
+      <article class="prog">
+        <div class="fn">comtrade_batch.py</div>
+        <h3>海关贸易数据批量拉取</h3>
+        <p>按「报告国 × 年份 × HS 编码」批量查询 UN Comtrade 的进出口数据，自带限速与断点续跑。</p>
+        <dl>
+          <dt>输入</dt><dd>国家代码、年份区间、HS 编码列表</dd>
+          <dt>输出</dt><dd>原始返回 + 清洗后表格 + 运行日志（三份文件）</dd>
+          <dt>依赖</dt><dd>requests, pandas</dd>
+          <dt>章节</dt><dd>模块三 §2 海关数据渠道</dd>
+        </dl>
+        <span class="tag">API</span><span class="tag">断点续跑</span>
+        <div class="src"><a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/comtrade_batch.py" target="_blank" rel="noreferrer">查看源码 ↗</a></div>
+      </article>
+
+      <article class="prog">
+        <div class="fn">ecommerce_analyze.py</div>
+        <h3>电商热销品数据清洗与分析</h3>
+        <p>读入<strong>你已合法获得</strong>的数据文件，做清洗、价格带分布、高口碑低竞争筛选与卖点词频统计。</p>
+        <dl>
+          <dt>输入</dt><dd>平台官方 API 导出 / 后台导出 / 授权数据商的 CSV·Excel</dd>
+          <dt>输出</dt><dd>清洗报告、价格带直方图数据、候选清单、高频词表</dd>
+          <dt>依赖</dt><dd>pandas</dd>
+          <dt>章节</dt><dd>模块三 §2、模块五第二章 §2</dd>
+        </dl>
+        <span class="tag">不做抓取</span><span class="tag">数据清洗</span>
+        <div class="src"><a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/ecommerce_analyze.py" target="_blank" rel="noreferrer">查看源码 ↗</a></div>
+      </article>
+
+      <article class="prog">
+        <div class="fn">places_importers.py</div>
+        <h3>按地区批量获取候选客户名单</h3>
+        <p>两条数据路线：Google Places API（覆盖好、计费、存储受限）与 OpenStreetMap Overpass（免费、条款宽松）。</p>
+        <dl>
+          <dt>输入</dt><dd>目标国家/城市、行业关键词</dd>
+          <dt>输出</dt><dd>候选客户表（默认只保存 place_id / 名称 / 网址三类字段）</dd>
+          <dt>依赖</dt><dd>requests</dd>
+          <dt>章节</dt><dd>模块三 §2 名录与地图渠道</dd>
+        </dl>
+        <span class="tag">合规优先</span><span class="tag">双数据源</span>
+        <div class="src"><a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/places_importers.py" target="_blank" rel="noreferrer">查看源码 ↗</a></div>
+      </article>
+    </div>
+
+    <h2 id="sel">模块五第二章 · 选品算法</h2>
+    <div class="prog-grid">
+      <article class="prog">
+        <div class="fn">sel_scorecard.py</div>
+        <h3>加权评分卡 + TOPSIS + 敏感性分析</h3>
+        <p>同一批候选，用两种多准则方法排序，再做 2000 次权重扰动，看第一名会不会被翻转。</p>
+        <dl>
+          <dt>输入</dt><dd>候选商品 × 六维打分（5 分制）、六维权重</dd>
+          <dt>输出</dt><dd>两种方法的得分与排名对比、一致性判断、首位翻转概率</dd>
+          <dt>依赖</dt><dd>numpy, pandas</dd>
+          <dt>章节</dt><dd>§4 多准则决策族</dd>
+        </dl>
+        <span class="tag">TOPSIS</span><span class="tag">敏感性分析</span>
+        <div class="src"><a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/sel_scorecard.py" target="_blank" rel="noreferrer">查看源码 ↗</a></div>
+      </article>
+
+      <article class="prog">
+        <div class="fn">sel_rules_cluster.py</div>
+        <h3>关联规则 + K-means 找价格空档</h3>
+        <p>从购物篮里算支持度/置信度/<strong>提升度</strong>找真搭配；再用 k-means++ 把竞品按价格—评分分群，输出价格间隔。</p>
+        <dl>
+          <dt>输入</dt><dd>订单购物篮列表；竞品（价格, 评分）</dd>
+          <dt>输出</dt><dd>关联商品表（含 lift）、肘部法选 k、各簇画像、价格空档</dd>
+          <dt>依赖</dt><dd>numpy, pandas</dd>
+          <dt>章节</dt><dd>§4 关联规则族 + 聚类族</dd>
+        </dl>
+        <span class="tag">Apriori</span><span class="tag">k-means++</span>
+        <div class="src"><a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/sel_rules_cluster.py" target="_blank" rel="noreferrer">查看源码 ↗</a></div>
+      </article>
+
+      <article class="prog">
+        <div class="fn">sel_bsr_forecast.py</div>
+        <h3>BSR 反推销量 + 季节性分解</h3>
+        <p>在 log-log 坐标拟合幂律关系，给出销量<strong>点估计与 80% 预测区间</strong>；再用经典分解算季节指数与备货时点。</p>
+        <dl>
+          <dt>输入</dt><dd>BSR 与销量的基准对照表；历史月销量序列</dd>
+          <dt>输出</dt><dd>幂指数 k、R²、区间预测表；季节指数、旺淡季、建议下单月份</dd>
+          <dt>依赖</dt><dd>numpy, pandas</dd>
+          <dt>章节</dt><dd>§4 回归族 + 时间序列族；§3 工具精度</dd>
+        </dl>
+        <span class="tag">预测区间</span><span class="tag">季节分解</span>
+        <div class="src"><a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/sel_bsr_forecast.py" target="_blank" rel="noreferrer">查看源码 ↗</a></div>
+      </article>
+
+      <article class="prog">
+        <div class="fn">sel_semantic.py</div>
+        <h3>语义检索：TF-IDF + 余弦相似度</h3>
+        <p>用「买家的说法」（场景+属性）而不是品类词去检索商品库，并输出查询里的高权重词以便解释匹配原因。</p>
+        <dl>
+          <dt>输入</dt><dd>商品标题+五点文本；买家查询语句</dd>
+          <dt>输出</dt><dd>Top-3 相似商品与相似度、高权重词、换词稳健性检查</dd>
+          <dt>依赖</dt><dd>numpy</dd>
+          <dt>章节</dt><dd>§4 语义匹配族（接 ACL 2026 BLaIR）</dd>
+        </dl>
+        <span class="tag">TF-IDF</span><span class="tag">可解释</span>
+        <div class="src"><a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/sel_semantic.py" target="_blank" rel="noreferrer">查看源码 ↗</a></div>
+      </article>
+    </div>
+
+    <h2 id="rev">模块五第二章 · 评论算法</h2>
+    <div class="prog-grid">
+      <article class="prog">
+        <div class="fn">rev_text_analysis.py</div>
+        <h3>关键词 + 主题（LDA）+ 情感</h3>
+        <p>按星级分桶算 TF-IDF 得痛点词与卖点词；用<strong>手写吉布斯采样</strong>跑 LDA 发现主题；词典法做情感并处理否定。</p>
+        <dl>
+          <dt>输入</dt><dd>评论列表（星级、是否验证、文本）</dd>
+          <dt>输出</dt><dd>分桶高频词、K 个主题及占比、情感得分与星级一致性</dd>
+          <dt>依赖</dt><dd>numpy</dd>
+          <dt>章节</dt><dd>§6 关键词 / 主题 / 情感三族</dd>
+        </dl>
+        <span class="tag">LDA</span><span class="tag">按桶分析</span>
+        <div class="src"><a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/rev_text_analysis.py" target="_blank" rel="noreferrer">查看源码 ↗</a></div>
+      </article>
+
+      <article class="prog">
+        <div class="fn">rev_absa_fake.py</div>
+        <h3>方面级情感（ABSA）+ 虚假评论检测</h3>
+        <p>把「好不好」拆成「哪方面好、哪方面差」，算出<strong>改进优先级 = 提及次数 × 负向占比</strong>；
+           再用 7 个可解释特征给评论打可疑分。</p>
+        <dl>
+          <dt>输入</dt><dd>评论列表 + 日期 + 是否验证购买</dd>
+          <dt>输出</dt><dd>方面×情感×次数表、优先级排序、逐条可疑分与命中特征</dd>
+          <dt>依赖</dt><dd>标准库</dd>
+          <dt>章节</dt><dd>§6 ABSA + 虚假检测族</dd>
+        </dl>
+        <span class="tag">ABSA</span><span class="tag">可解释特征</span>
+        <div class="src"><a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/rev_absa_fake.py" target="_blank" rel="noreferrer">查看源码 ↗</a></div>
+      </article>
+    </div>
+
+    <h2 id="gen">模块五第二章 · 内容生成</h2>
+    <div class="prog-grid">
+      <article class="prog">
+        <div class="fn">content_generate.py</div>
+        <h3>模板化生成 + 提示词构造 + 三层校验</h3>
+        <p>用「大写利益短语 + 证据 + 所以意味着什么」的骨架生成五点；把事实/结构/禁区/来源标注组装成提示词；
+           再逐项做<strong>事实层、合规层、风格层</strong>校验。</p>
+        <dl>
+          <dt>输入</dt><dd>产品规格字典、禁用词表、五点结构计划</dd>
+          <dt>输出</dt><dd>标题与五点、完整提示词、问题清单（含故意造错的对照）</dd>
+          <dt>依赖</dt><dd>标准库</dd>
+          <dt>章节</dt><dd>§8 模板化 / 提示工程 / 多智能体</dd>
+        </dl>
+        <span class="tag">三层校验</span><span class="tag">提示词</span>
+        <div class="src"><a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/content_generate.py" target="_blank" rel="noreferrer">查看源码 ↗</a></div>
+      </article>
+
+      <article class="prog">
+        <div class="fn">content_eval.py</div>
+        <h3>BLEU / ROUGE 的失效 + 结构化评审</h3>
+        <p>手算 BLEU（含平滑）与 ROUGE-N，用四段构造文本演示<strong>词序打乱、参数编造</strong>时指标如何失灵；
+           再给一套标准写死的四维评审。</p>
+        <dl>
+          <dt>输入</dt><dd>参考文案；四段候选（高质量 / 乱序 / 空话 / 编造）</dd>
+          <dt>输出</dt><dd>BLEU·ROUGE 对照表、指标失效说明、四维评审得分与问题</dd>
+          <dt>依赖</dt><dd>标准库</dd>
+          <dt>章节</dt><dd>§8 生成质量评估（接第四章）</dd>
+        </dl>
+        <span class="tag">BLEU</span><span class="tag">评审表</span>
+        <div class="src"><a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/content_eval.py" target="_blank" rel="noreferrer">查看源码 ↗</a></div>
+      </article>
+    </div>
+
+    <h2 id="compliance">合规声明</h2>
+    <div class="warn">
+      <strong>三条边界，请在使用前读一遍：</strong><br>
+      1. <strong>不做未授权抓取。</strong>凡涉及平台数据的脚本，输入都必须是官方 API 返回、后台导出或授权数据商的产物；
+         课程不提供任何绕过反爬的方法。<br>
+      2. <strong>不保存受限字段。</strong>地图类 API 的条款通常只允许长期保存有限字段，
+         脚本默认只落盘 place_id / 名称 / 网址，其余字段请当场核对、不要入库。<br>
+      3. <strong>示例数据全是编的。</strong>所有内置样例（商品、评论、竞品、BSR）均为教学合成，
+         不对应真实主体；结论只能用于理解方法，不能当作市场判断。
+    </div>
+
+    <div class="note">
+      <strong>怎么用这些程序最有效：</strong>不要只跑一遍看输出。挑一个脚本，改三个地方再跑——
+      换个品类的数据、改一个阈值、把权重调一次——对比输出怎么变。方法感是改出来的，不是读出来的。
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div><strong>智能贸易</strong><p>深圳大学 · 跨境电商与智能营销课程</p></div>
+      <div class="footer-links"><a href="../index.html">课程首页 ↑</a><a href="https://github.com/elysium4eva" target="_blank" rel="noreferrer">GitHub ↗</a></div>
+    </div>
+  </footer>
+</body>
+</html>
