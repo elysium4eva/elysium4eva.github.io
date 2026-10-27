@@ -27,5 +27,5 @@
 <rect x="150" y="301.5" width="0.0" height="40.1" fill="#8C1A2E" opacity="0.88"/>
 <text x="142" y="325.1" text-anchor="end" font-family="system-ui,sans-serif" font-size="9.5" fill="#33414c">CH-10</text>
 <text x="156.0" y="325.1" font-family="ui-monospace,monospace" font-size="9.5" fill="#33414c">0</text>
-<text x="402" y="388" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#5a6672">余弦相似度</text>
+<text x="402" y="386" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#5a6672">余弦相似度</text>
 </svg>
