@@ -156,5 +156,17 @@ def main():
     print("  3) 任务专用基准评测（如 ACL 2026 BLaIR）—— 选模型必须用自己的品类数据实测")
 
 
+
+# ---------------------------------------------------------------- 可视化
+def save_visual(path='visuals/sel_semantic.svg'):
+    """输出第一个查询的 Top-5 相似度条形图。"""
+    from chartlib import HBarChart
+    vocab, D, Q, idf = build_tfidf(DOCS, QUERIES)
+    sims = D @ Q[0]
+    pairs = sorted(zip(list(DOCS.keys()), [float(v) for v in sims]), key=lambda x: -x[1])[:5]
+    ch = HBarChart('语义检索 Top-5（查询：waterproof speaker for camping）', '余弦相似度')
+    ch.add([p[0].split()[0] for p in pairs], [p[1] for p in pairs])
+    return ch.save(path)
+
 if __name__ == "__main__":
     main()
