@@ -163,5 +163,19 @@ def main():
     print("      真正的验证仍是小批量试单（见课件 §2「小步验证」）。")
 
 
+
+# ---------------------------------------------------------------- 可视化
+def save_visual(path='visuals/sel_scorecard.svg'):
+    """输出「加权得分 vs TOPSIS 接近度」散点图，展示两种方法的分歧。"""
+    from chartlib import ScatterChart
+    df, names, crit_keys = build_frame()
+    ws = weighted_score(df, crit_keys)
+    ts = topsis(df, crit_keys)
+    ch = ScatterChart('加权得分 vs TOPSIS 接近度', '加权得分（0-5）', 'TOPSIS 接近度')
+    ch.add_group('候选商品', [float(v) for v in ws.values], [float(v) for v in ts.values],
+                 labels=[str(i).split()[0] for i in ws.index])
+    ch.add_note('两法排序不一致 = 候选差距小，不宜凭打分硬选')
+    return ch.save(path)
+
 if __name__ == "__main__":
     main()
