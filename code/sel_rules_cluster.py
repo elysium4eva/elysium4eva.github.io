@@ -114,6 +114,15 @@ def demo_rules():
 
 
 # ================================================================ B) 聚类
+def cluster_demo_data():
+    """30 个竞品的（价格 美元, 评分）——三段各 10 个，用于演示分群。"""
+    rng = np.random.default_rng(3)
+    low = np.column_stack([rng.normal(12, 1.8, 10), rng.normal(4.1, 0.18, 10)])
+    mid = np.column_stack([rng.normal(22, 2.2, 10), rng.normal(4.4, 0.15, 10)])
+    high = np.column_stack([rng.normal(42, 3.0, 10), rng.normal(4.5, 0.12, 10)])
+    return np.vstack([low, mid, high])
+
+
 def kmeans(X, k, iters=100, seed=42):
     """手写 K-means：初始化 → 分配 → 更新质心 → 迭代到收敛。
 
@@ -161,12 +170,7 @@ def demo_cluster():
     print("B) K-means 聚类：竞品价格带上有没有空档？")
     print("=" * 74)
 
-    # 30 个竞品的（价格 美元, 评分）
-    rng = np.random.default_rng(3)
-    low = np.column_stack([rng.normal(12, 1.8, 10), rng.normal(4.1, 0.18, 10)])
-    mid = np.column_stack([rng.normal(22, 2.2, 10), rng.normal(4.4, 0.15, 10)])
-    high = np.column_stack([rng.normal(42, 3.0, 10), rng.normal(4.5, 0.12, 10)])
-    X = np.vstack([low, mid, high])
+    X = cluster_demo_data()
     df = pd.DataFrame(X, columns=["价格", "评分"])
     df["价格"] = df["价格"].round(2)
     df["评分"] = df["评分"].round(2)
@@ -207,6 +211,27 @@ def demo_cluster():
           f"{prices[list(ordered.index).index(biggest[1])]:.0f} 美元区间）验证是否有需求缺口。")
     print("注意：簇间隔大只说明「供给少」，不等于「有需求」——必须再查该价位是否有销量。")
 
+
+
+# ---------------------------------------------------------------- 可视化
+def save_visual(path='visuals/sel_rules_cluster.svg'):
+    """输出竞品聚类散点图（价格-评分平面，含质心与簇间隔提示）。"""
+    from chartlib import ScatterChart
+    X = cluster_demo_data()
+    labels, C, _ = kmeans(X, 3)
+    order = np.argsort(C[:, 0])
+    remap = {int(o): i for i, o in enumerate(order)}
+    ch = ScatterChart('竞品聚类：价格-评分平面', '价格（美元）', '评分')
+    names = ['低价带', '中价带', '高价带']
+    marks = ['circle', 'square', 'triangle']
+    for k in range(3):
+        idx = [i for i, l in enumerate(labels) if remap[int(l)] == k]
+        ch.add_group(names[k],
+                     [float(X[i, 0]) for i in idx], [float(X[i, 1]) for i in idx],
+                     marker=marks[k])
+    ch.add_centroids([float(C[o, 0]) for o in order], [float(C[o, 1]) for o in order])
+    ch.add_note('簇间空档只说明供给少，不等于有需求')
+    return ch.save(path)
 
 if __name__ == "__main__":
     demo_rules()
