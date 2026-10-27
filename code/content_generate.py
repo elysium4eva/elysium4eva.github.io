@@ -198,5 +198,29 @@ def demo():
     print(f"\n共发现 {len(bad_issues)} 处问题——这正是「AI 起草 + 人工三层校验」的分工所在。")
 
 
+
+# ---------------------------------------------------------------- 可视化
+def save_visual(path='visuals/content_generate.svg'):
+    """输出「三层校验抓出的问题数」分组柱状图（合格版 vs 造错版）。"""
+    from collections import Counter
+    from chartlib import BarChart
+    good = validate(render_bullets(SPEC), render_title(SPEC), SPEC)
+    bad = [
+        Bullet('BEST WATERPROOF',
+               'IPX8 rated, 20 m depth, lifetime warranty - cures all water worries',
+               ['waterproof']),
+        Bullet('ALL DAY', '8000mAh, 48 h playtime - never charge again', ['battery']),
+    ]
+    bad_title = 'BS-520 Speaker, 100% Waterproof, Best in Class, UL Certified'
+    bad_issues = validate(bad, bad_title, SPEC)
+    layers = ['事实', '合规', '风格']
+    c1 = Counter(l for l, _ in good)
+    c2 = Counter(l for l, _ in bad_issues)
+    ch = BarChart('三层校验抓出的问题数', '校验层', '问题数')
+    ch.add_series('合格版本', layers, [float(c1.get(l, 0)) for l in layers])
+    ch.add_series('造错版本', layers, [float(c2.get(l, 0)) for l in layers])
+    ch.add_note('合格版本应当三层全过；造错版本三类问题都被抓出')
+    return ch.save(path)
+
 if __name__ == "__main__":
     demo()
