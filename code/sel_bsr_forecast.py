@@ -161,6 +161,24 @@ def demo_seasonal():
     print(tail.to_string())
 
 
+
+# ---------------------------------------------------------------- 可视化
+def save_visual(path='visuals/sel_bsr_forecast.svg'):
+    """输出月销量的「实际 vs 趋势」折线图，展示季节波动幅度。"""
+    from chartlib import LineChart
+    rng = np.random.default_rng(5)
+    t = np.arange(36)
+    sales = 1000 + 18 * t + 320 * np.sin(2 * np.pi * (t % 12) / 12 - 1.0) + rng.normal(0, 45, 36)
+    dec = seasonal_decompose(sales, period=12)
+    trend = dec['趋势'].fillna(float(np.mean(sales))).to_numpy()
+    ch = LineChart('月销量：实际波动与趋势项', '月份序号（1-36）', '销量（件）')
+    ch.add_line('实际销量', list(range(1, 37)), [float(v) for v in sales])
+    ch.add_line('趋势项', list(range(1, 37)), [float(v) for v in trend])
+    se = dec['季节'].iloc[:12].to_numpy()
+    ch.add_note(f'季节指数峰谷差约 {float(se.max() - se.min()):.0f} 件，约合年均的 '
+                f'{(se.max() - se.min()) / float(np.mean(sales)) * 100:.0f}%')
+    return ch.save(path)
+
 if __name__ == "__main__":
     demo_bsr()
     demo_seasonal()
