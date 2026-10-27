@@ -234,6 +234,18 @@ def demo_fake():
     print("  · 换成 GBDT / 图神经网络时，输入仍是这些特征（加上账号关系、IP 等），只是权重由模型学。")
 
 
+
+# ---------------------------------------------------------------- 可视化
+def save_visual(path='visuals/rev_absa_fake.svg'):
+    """输出可疑分前 10 的条形图，直观看正常评论与可疑评论的分离。"""
+    from chartlib import HBarChart
+    feats = fake_features(REVIEWS)
+    items = [(rid, feats[rid][1]) for rid, *_ in REVIEWS]
+    items = sorted(items, key=lambda x: -x[1])[:10]
+    ch = HBarChart('虚假评论可疑分（前 10 条）', '可疑分（>=30 判定可疑）')
+    ch.add([i[0] for i in items], [float(i[1]) for i in items])
+    return ch.save(path)
+
 if __name__ == "__main__":
     demo_absa()
     demo_fake()
