@@ -193,5 +193,20 @@ def main():
     print("  · 三级定位：文本相似度（粗筛）→ 结构化评审（细筛）→ 投放数据（定论）。")
 
 
+
+# ---------------------------------------------------------------- 可视化
+def save_visual(path='visuals/content_eval.svg'):
+    """输出 BLEU 与 ROUGE-1 的分歧柱状图。"""
+    from chartlib import BarChart
+    names = list(CANDIDATES.keys())
+    short = [n.split()[0] for n in names]
+    bleu_scores = [bleu(CANDIDATES[n], REFERENCE)[0] for n in names]
+    rouge1 = [rouge_n(CANDIDATES[n], REFERENCE, 1) for n in names]
+    ch = BarChart('BLEU 与 ROUGE-1：同一批候选的分歧', '候选', '得分')
+    ch.add_series('BLEU', short, [float(v) for v in bleu_scores])
+    ch.add_series('ROUGE-1', short, [float(v) for v in rouge1])
+    ch.add_note('C2 词序乱：BLEU=0 但 ROUGE-1 最高；C4 参数错：ROUGE 仍给分')
+    return ch.save(path)
+
 if __name__ == "__main__":
     main()
