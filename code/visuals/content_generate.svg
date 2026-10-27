@@ -17,7 +17,7 @@
 <line x1="66" y1="342" x2="654" y2="342" stroke="#9aa7b2" stroke-width="1.2"/>
 <text x="360" y="386" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#5a6672">校验层</text>
 <text x="16" y="195" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#5a6672" transform="rotate(-90 16 195)">问题数</text>
-<text x="76" y="334" font-family="system-ui,sans-serif" font-size="9.5" fill="#6b7883">合格版本应当三层全过；造错版本三类问题都被抓出</text>
+<text x="66" y="40" font-family="system-ui,sans-serif" font-size="9.5" fill="#6b7883">合格版本应当三层全过；造错版本三类问题都被抓出</text>
 <rect x="93.4" y="342.0" width="70.6" height="0.0" fill="#8C1A2E" opacity="0.88"/>
 <rect x="289.4" y="342.0" width="70.6" height="0.0" fill="#8C1A2E" opacity="0.88"/>
 <rect x="485.4" y="342.0" width="70.6" height="0.0" fill="#8C1A2E" opacity="0.88"/>
@@ -27,8 +27,8 @@
 <text x="164.0" y="357" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9.5" fill="#5a6672">事实</text>
 <text x="360.0" y="357" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9.5" fill="#5a6672">合规</text>
 <text x="556.0" y="357" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9.5" fill="#5a6672">风格</text>
-<rect x="74" y="47" width="10" height="10" fill="#8C1A2E"/>
-<text x="89" y="55" font-family="system-ui,sans-serif" font-size="10" fill="#33414c">合格版本</text>
-<rect x="74" y="62" width="10" height="10" fill="#1F6FB2"/>
-<text x="89" y="70" font-family="system-ui,sans-serif" font-size="10" fill="#33414c">造错版本</text>
+<rect x="74" y="61" width="10" height="10" fill="#8C1A2E"/>
+<text x="89" y="69" font-family="system-ui,sans-serif" font-size="10" fill="#33414c">合格版本</text>
+<rect x="74" y="76" width="10" height="10" fill="#1F6FB2"/>
+<text x="89" y="84" font-family="system-ui,sans-serif" font-size="10" fill="#33414c">造错版本</text>
 </svg>
