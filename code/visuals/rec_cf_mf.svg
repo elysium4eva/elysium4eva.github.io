@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="400" viewBox="0 0 680 400">
+<rect x="0" y="0" width="680" height="400" fill="#ffffff"/>
+<text x="340" y="26" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="14" font-weight="600" fill="#1e2630">三种推荐方法的 HR@10 与 NDCG@10</text>
+<line x1="66" y1="342.0" x2="654" y2="342.0" stroke="#e3e8ec" stroke-width="1"/>
+<text x="58" y="345.5" text-anchor="end" font-family="ui-monospace,SFMono-Regular,monospace" font-size="10" fill="#6b7883">0</text>
+<line x1="66" y1="283.2" x2="654" y2="283.2" stroke="#e3e8ec" stroke-width="1"/>
+<text x="58" y="286.7" text-anchor="end" font-family="ui-monospace,SFMono-Regular,monospace" font-size="10" fill="#6b7883">20</text>
+<line x1="66" y1="224.4" x2="654" y2="224.4" stroke="#e3e8ec" stroke-width="1"/>
+<text x="58" y="227.9" text-anchor="end" font-family="ui-monospace,SFMono-Regular,monospace" font-size="10" fill="#6b7883">40</text>
+<line x1="66" y1="165.6" x2="654" y2="165.6" stroke="#e3e8ec" stroke-width="1"/>
+<text x="58" y="169.1" text-anchor="end" font-family="ui-monospace,SFMono-Regular,monospace" font-size="10" fill="#6b7883">60</text>
+<line x1="66" y1="106.8" x2="654" y2="106.8" stroke="#e3e8ec" stroke-width="1"/>
+<text x="58" y="110.3" text-anchor="end" font-family="ui-monospace,SFMono-Regular,monospace" font-size="10" fill="#6b7883">80</text>
+<line x1="66" y1="48.0" x2="654" y2="48.0" stroke="#e3e8ec" stroke-width="1"/>
+<text x="58" y="51.5" text-anchor="end" font-family="ui-monospace,SFMono-Regular,monospace" font-size="10" fill="#6b7883">100</text>
+<line x1="66" y1="48" x2="66" y2="342" stroke="#9aa7b2" stroke-width="1.2"/>
+<line x1="66" y1="342" x2="654" y2="342" stroke="#9aa7b2" stroke-width="1.2"/>
+<text x="360" y="386" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#5a6672">方法</text>
+<text x="16" y="195" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#5a6672" transform="rotate(-90 16 195)">百分比（%）</text>
+<text x="66" y="40" font-family="system-ui,sans-serif" font-size="9.5" fill="#6b7883">BPR 直接优化排序目标，通常在隐式反馈上优于相似度方法</text>
+<rect x="93.4" y="88.9" width="70.6" height="253.1" fill="#8C1A2E" opacity="0.88"/>
+<rect x="289.4" y="86.2" width="70.6" height="255.8" fill="#8C1A2E" opacity="0.88"/>
+<rect x="485.4" y="97.1" width="70.6" height="244.9" fill="#8C1A2E" opacity="0.88"/>
+<rect x="164.0" y="197.6" width="70.6" height="144.4" fill="#1F6FB2" opacity="0.88"/>
+<rect x="360.0" y="193.5" width="70.6" height="148.5" fill="#1F6FB2" opacity="0.88"/>
+<rect x="556.0" y="223.2" width="70.6" height="118.8" fill="#1F6FB2" opacity="0.88"/>
+<text x="164.0" y="357" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9.5" fill="#5a6672">UserCF</text>
+<text x="360.0" y="357" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9.5" fill="#5a6672">ItemCF</text>
+<text x="556.0" y="357" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9.5" fill="#5a6672">BPR-MF</text>
+<rect x="74" y="61" width="10" height="10" fill="#8C1A2E"/>
+<text x="89" y="69" font-family="system-ui,sans-serif" font-size="10" fill="#33414c">HR@10</text>
+<rect x="74" y="76" width="10" height="10" fill="#1F6FB2"/>
+<text x="89" y="84" font-family="system-ui,sans-serif" font-size="10" fill="#33414c">NDCG@10</text>
+</svg>
