@@ -75,9 +75,9 @@
   </header>
 
   <main class="doc">
-    <p class="meta">COURSE PROGRAMS · 11 个程序 · 9 张可视化图</p>
+    <p class="meta">COURSE PROGRAMS · 18 个程序 · 16 张可视化图</p>
     <h1>课程程序库</h1>
-    <p>这里放《智能贸易》各章用到的全部程序。每个算法程序都<strong>自带一张可视化图</strong>——
+    <p>这里放《智能贸易》各章用到的全部 18 个程序。每个算法程序都<strong>自带一张可视化图</strong>——
        图不是示意画，而是<strong>程序真实跑出来的输出</strong>；点开图可看原尺寸 SVG。</p>
     <p>课件里讲方法，这里给代码。看代码不是目的，<strong>改参数、看输出怎么变</strong>才是。</p>
 
@@ -98,7 +98,7 @@
     </div>
 
     <h2 id="pick">程序索引与可视化</h2>
-    <p>11 个程序分四组。9 个算法程序的图由各自的 <code>save_visual()</code> 生成，
+    <p>18 个程序分七组。16 个算法程序的图由各自的 <code>save_visual()</code> 生成，
        统一用 <code>chartlib.py</code>（纯标准库画 SVG，不依赖 matplotlib），
        运行 <code>python gen_visuals.py</code> 可一次性重新生成 <code>visuals/*.svg</code>。</p>
     <h2>模块三 · 市场调研与客户开发</h2>
@@ -295,6 +295,132 @@
       </article>
     </div>
 
+    <h2>社媒营销算法 · 模块五第三章 §4</h2>
+    <p>两个程序分别演示「选谁」与「发给谁」，图为本程序实际输出。</p>
+    <div class="prog-grid">
+      <article class="prog" id="soc_kol_maxcover">
+        <a class="viz" href="visuals/soc_kol_maxcover.svg" target="_blank" rel="noreferrer"><img src="visuals/soc_kol_maxcover.svg" alt="影响力最大化：IC 模型 + 贪心选点 的可视化输出" loading="lazy"></a>
+        <div class="fn">soc_kol_maxcover.py</div>
+        <h3>影响力最大化：IC 模型 + 贪心选点</h3>
+        <p>构造小网络，用独立级联模型模拟传播，贪心选 K 个种子并与随机选对比，同时输出每步边际增益。</p>
+        <dl>
+          <dt>输入</dt><dd>合成社交图（可替换为真实关系图）</dd>
+          <dt>输出</dt><dd>贪心／随机的期望覆盖、边际增益曲线</dd>
+          <dt>依赖</dt><dd>numpy</dd>
+          <dt>章节</dt><dd>§4 算法 4-1 影响力最大化</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/soc_kol_maxcover.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="soc_kol_maxcover.py" download>下载</a>
+        </div>
+      </article>
+      <article class="prog" id="soc_uplift">
+        <a class="viz" href="visuals/soc_uplift.svg" target="_blank" rel="noreferrer"><img src="visuals/soc_uplift.svg" alt="Uplift 建模：该给谁发券 的可视化输出" loading="lazy"></a>
+        <div class="fn">soc_uplift.py</div>
+        <h3>Uplift 建模：该给谁发券</h3>
+        <p>用 T-learner 估计增量效果，把人群分成四类，说明为什么「整体转化率」会误导投放决策。</p>
+        <dl>
+          <dt>输入</dt><dd>合成 AB 实验数据</dd>
+          <dt>输出</dt><dd>四类人群规模与平均 uplift、每增量转化成本</dd>
+          <dt>依赖</dt><dd>numpy</dd>
+          <dt>章节</dt><dd>§4 算法 4-3 Uplift 建模</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/soc_uplift.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="soc_uplift.py" download>下载</a>
+        </div>
+      </article>
+    </div>
+
+    <h2>推荐算法 · 模块五第三章 §5</h2>
+    <p>四个程序覆盖召回、排序、序列与冷启动，图为本程序实际输出。</p>
+    <div class="prog-grid">
+      <article class="prog" id="rec_cf_mf">
+        <a class="viz" href="visuals/rec_cf_mf.svg" target="_blank" rel="noreferrer"><img src="visuals/rec_cf_mf.svg" alt="协同过滤 + BPR 矩阵分解 的可视化输出" loading="lazy"></a>
+        <div class="fn">rec_cf_mf.py</div>
+        <h3>协同过滤 + BPR 矩阵分解</h3>
+        <p>同一份隐式反馈上对比 UserCF、ItemCF 与 BPR 矩阵分解，输出 HR@K 与训练损失。</p>
+        <dl>
+          <dt>输入</dt><dd>合成用户—物品交互</dd>
+          <dt>输出</dt><dd>三种方法的 HR@K／NDCG@K、损失曲线</dd>
+          <dt>依赖</dt><dd>numpy</dd>
+          <dt>章节</dt><dd>§5 算法 5-1、5-2</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/rec_cf_mf.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="rec_cf_mf.py" download>下载</a>
+        </div>
+      </article>
+      <article class="prog" id="rec_rank_eval">
+        <a class="viz" href="visuals/rec_rank_eval.svg" target="_blank" rel="noreferrer"><img src="visuals/rec_rank_eval.svg" alt="双塔召回 + HR@K／NDCG@K 评估 的可视化输出" loading="lazy"></a>
+        <div class="fn">rec_rank_eval.py</div>
+        <h3>双塔召回 + HR@K／NDCG@K 评估</h3>
+        <p>实现极简双塔（内积打分）并扫描不同 K，展示「K 越大 HR 越高但 NDCG 增长变慢」。</p>
+        <dl>
+          <dt>输入</dt><dd>合成用户—物品交互</dd>
+          <dt>输出</dt><dd>不同 K 下的 HR 与 NDCG、随机基线对比</dd>
+          <dt>依赖</dt><dd>numpy</dd>
+          <dt>章节</dt><dd>§5 算法 5-3、5-7</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/rec_rank_eval.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="rec_rank_eval.py" download>下载</a>
+        </div>
+      </article>
+      <article class="prog" id="rec_seq_sasrec">
+        <a class="viz" href="visuals/rec_seq_sasrec.svg" target="_blank" rel="noreferrer"><img src="visuals/rec_seq_sasrec.svg" alt="序列推荐：因果自注意力 的可视化输出" loading="lazy"></a>
+        <div class="fn">rec_seq_sasrec.py</div>
+        <h3>序列推荐：因果自注意力</h3>
+        <p>用手工注意力演示「因果掩码」与「注意力权重」，并说明未训练的注意力为何接近均匀。</p>
+        <dl>
+          <dt>输入</dt><dd>合成行为序列（含主题结构）</dd>
+          <dt>输出</dt><dd>HR@10／MRR、注意力权重分布</dd>
+          <dt>依赖</dt><dd>numpy</dd>
+          <dt>章节</dt><dd>§5 算法 5-4 序列推荐</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/rec_seq_sasrec.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="rec_seq_sasrec.py" download>下载</a>
+        </div>
+      </article>
+      <article class="prog" id="rec_bandit">
+        <a class="viz" href="visuals/rec_bandit.svg" target="_blank" rel="noreferrer"><img src="visuals/rec_bandit.svg" alt="冷启动与探索：三种策略对比 的可视化输出" loading="lazy"></a>
+        <div class="fn">rec_bandit.py</div>
+        <h3>冷启动与探索：三种策略对比</h3>
+        <p>对比纯贪心、ε-greedy、UCB、Thompson 采样，看探索预算如何影响累计转化。</p>
+        <dl>
+          <dt>输入</dt><dd>合成多臂老虎机环境</dd>
+          <dt>输出</dt><dd>累计转化曲线、最优臂选择占比</dd>
+          <dt>依赖</dt><dd>numpy</dd>
+          <dt>章节</dt><dd>§5 算法 5-6 冷启动</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/rec_bandit.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="rec_bandit.py" download>下载</a>
+        </div>
+      </article>
+    </div>
+
+    <h2>AIGC 算法 · 模块五第三章 §6</h2>
+    <p>一个程序把扩散过程与 CFG 讲到看得见。</p>
+    <div class="prog-grid">
+      <article class="prog" id="aigc_diffusion">
+        <a class="viz" href="visuals/aigc_diffusion.svg" target="_blank" rel="noreferrer"><img src="visuals/aigc_diffusion.svg" alt="扩散模型一维演示：加噪与去噪 的可视化输出" loading="lazy"></a>
+        <div class="fn">aigc_diffusion.py</div>
+        <h3>扩散模型一维演示：加噪与去噪</h3>
+        <p>在一维信号上演示前向加噪（信噪比衰减）、反向去噪还原，以及不同引导尺度 s 的影响。</p>
+        <dl>
+          <dt>输入</dt><dd>合成一维信号</dd>
+          <dt>输出</dt><dd>各时间步相关系数与信噪比、还原误差、CFG 偏离度</dd>
+          <dt>依赖</dt><dd>numpy</dd>
+          <dt>章节</dt><dd>§6 算法 6-1、6-2</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/aigc_diffusion.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="aigc_diffusion.py" download>下载</a>
+        </div>
+      </article>
+    </div>
     <div class="note">
       <strong>为什么有三项没有图表：</strong><code>comtrade_batch.py</code> 与 <code>places_importers.py</code>
       需要真实 API 密钥与实时网络，输出是数据文件而不是可预知图形——具体的输出字段与用法见脚本顶部的文档字符串。
@@ -303,7 +429,7 @@
     </div>
 
     <h2 id="algo-list">算法清单与训练资源</h2>
-    <p>这一节对应课件第二章第 4、6、8 节与第 9 节：<strong>三类算法的每一个算法</strong>都配了数学公式与应用场景（见课件），
+    <p>这一节对应课件第二章第 4、6、8、9 节与第三章第 4、5、6、8 节：<strong>三类算法的每一个算法</strong>都配了数学公式与应用场景（见课件），
        这里给出可执行的清单——<strong>哪个算法配哪个包、用哪个公开数据练</strong>。所有链接均为官方主页或官方仓库，课程不提供镜像。</p>
 
     <div class="note">
@@ -385,6 +511,42 @@
       </table>
     </div>
 
+
+    <h3 class="sub">清单四 · 第三章 三类算法（社媒／推荐／AIGC）</h3>
+    <div class="tbl-wrap">
+      <table class="algo-tbl">
+        <thead><tr><th>类别</th><th>具体算法</th><th>主要开源包</th><th>练什么</th></tr></thead>
+        <tbody>
+          <tr><td><b>类一 社媒营销（5）</b></td><td>影响力最大化、级联规模预测、Uplift 建模、内容—人群匹配、预算分配</td><td><code>networkx、scikit-learn、scikit-uplift、causalml</code></td><td>选 5 个种子达人，对比随机选；给谁发券</td></tr>
+          <tr><td><b>类二 推荐（7）</b></td><td>协同过滤、矩阵分解（BPR）、双塔、序列推荐（SASRec）、图推荐（LightGCN）、冷启动 Bandit、评估指标</td><td><code>implicit、Surprise、LightFM、RecBole、torch-rechub</code></td><td>HR@K／NDCG@K 对比；冷启动三策略</td></tr>
+          <tr><td><b>类三 AIGC（5）</b></td><td>扩散模型（DDPM）、条件生成 CFG、视频切片、语音与数字人、AIGC 标识与检测</td><td><code>diffusers、moviepy、opencv-python、Coqui TTS</code></td><td>一维加噪去噪；长视频按场景切分</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub">清单五 · 第三章补充数据集与开源包</h3>
+    <div class="tbl-wrap">
+      <table class="algo-tbl">
+        <thead><tr><th>数据集</th><th>内容</th><th>适合练什么</th><th>官方入口</th></tr></thead>
+        <tbody>
+          <tr><td><b>MovieLens</b></td><td>用户—电影评分与行为序列</td><td>协同过滤、矩阵分解、序列推荐</td><td><a href="https://grouplens.org/datasets/movielens/" target="_blank" rel="noreferrer">grouplens.org/datasets/movielens ↗</a></td></tr>
+          <tr><td><b>COCO</b></td><td>图文配对数据集</td><td>多模态检索、图文对齐</td><td><a href="https://cocodataset.org/" target="_blank" rel="noreferrer">cocodataset.org ↗</a></td></tr>
+          <tr><td><b>LAION 子集</b></td><td>大规模图文对（需注意许可）</td><td>文生图训练与评测</td><td><a href="https://laion.ai/" target="_blank" rel="noreferrer">laion.ai ↗</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl-wrap">
+      <table class="algo-tbl">
+        <thead><tr><th>包名</th><th>能做什么</th><th>本课程用在</th><th>官方文档</th></tr></thead>
+        <tbody>
+          <tr><td><code>implicit</code></td><td>BPR／ALS 隐式反馈推荐</td><td>第三章 §5 矩阵分解</td><td><a href="https://github.com/benfred/implicit" target="_blank" rel="noreferrer">github.com/benfred/implicit ↗</a></td></tr>
+          <tr><td><code>RecBole</code></td><td>统一推荐算法框架</td><td>第三章 §5 全流程</td><td><a href="https://recbole.io/" target="_blank" rel="noreferrer">recbole.io ↗</a></td></tr>
+          <tr><td><code>networkx</code></td><td>图结构与网络分析</td><td>第三章 §4 影响力最大化</td><td><a href="https://networkx.org/" target="_blank" rel="noreferrer">networkx.org ↗</a></td></tr>
+          <tr><td><code>diffusers</code></td><td>扩散模型推理与训练</td><td>第三章 §6 扩散／CFG</td><td><a href="https://huggingface.co/docs/diffusers" target="_blank" rel="noreferrer">huggingface.co/docs/diffusers ↗</a></td></tr>
+          <tr><td><code>moviepy</code></td><td>脚本化视频剪辑</td><td>第三章 §6 视频切片</td><td><a href="https://zulko.github.io/moviepy/" target="_blank" rel="noreferrer">zulko.github.io/moviepy ↗</a></td></tr>
+        </tbody>
+      </table>
+    </div>
     <div class="note">
       <strong>一个四周训练路线：</strong>① 跑通数据（下载一个品类 + UCI 零售，清洗并画分布）→
       ② 类一＋类三（聚类找空档、TOPSIS 排序、敏感性分析）→
