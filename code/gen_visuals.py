@@ -22,6 +22,13 @@ TARGETS = [
     ("content_generate", "content_generate.py"),
     ("content_eval", "content_eval.py"),
     ("ecommerce_analyze", "ecommerce_analyze.py"),
+    ('soc_kol_maxcover', 'soc_kol_maxcover.py'),
+    ('soc_uplift', 'soc_uplift.py'),
+    ('rec_cf_mf', 'rec_cf_mf.py'),
+    ('rec_rank_eval', 'rec_rank_eval.py'),
+    ('rec_seq_sasrec', 'rec_seq_sasrec.py'),
+    ('rec_bandit', 'rec_bandit.py'),
+    ('aigc_diffusion', 'aigc_diffusion.py'),
 ]
 
 
