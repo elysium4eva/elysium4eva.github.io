@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="400" viewBox="0 0 680 400">
+<rect x="0" y="0" width="680" height="400" fill="#ffffff"/>
+<text x="340" y="26" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="14" font-weight="600" fill="#1e2630">影响力最大化：每步边际增益递减</text>
+<line x1="66" y1="342.0" x2="654" y2="342.0" stroke="#e3e8ec" stroke-width="1"/>
+<text x="58" y="345.5" text-anchor="end" font-family="ui-monospace,SFMono-Regular,monospace" font-size="10" fill="#6b7883">2</text>
+<line x1="66" y1="268.5" x2="654" y2="268.5" stroke="#e3e8ec" stroke-width="1"/>
+<text x="58" y="272.0" text-anchor="end" font-family="ui-monospace,SFMono-Regular,monospace" font-size="10" fill="#6b7883">2.5</text>
+<line x1="66" y1="195.0" x2="654" y2="195.0" stroke="#e3e8ec" stroke-width="1"/>
+<text x="58" y="198.5" text-anchor="end" font-family="ui-monospace,SFMono-Regular,monospace" font-size="10" fill="#6b7883">3</text>
+<line x1="66" y1="121.5" x2="654" y2="121.5" stroke="#e3e8ec" stroke-width="1"/>
+<text x="58" y="125.0" text-anchor="end" font-family="ui-monospace,SFMono-Regular,monospace" font-size="10" fill="#6b7883">3.5</text>
+<line x1="66" y1="48.0" x2="654" y2="48.0" stroke="#e3e8ec" stroke-width="1"/>
+<text x="58" y="51.5" text-anchor="end" font-family="ui-monospace,SFMono-Regular,monospace" font-size="10" fill="#6b7883">4</text>
+<line x1="66" y1="48" x2="66" y2="342" stroke="#9aa7b2" stroke-width="1.2"/>
+<line x1="66" y1="342" x2="654" y2="342" stroke="#9aa7b2" stroke-width="1.2"/>
+<text x="360" y="386" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#5a6672">已选达人数量 K</text>
+<text x="16" y="195" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#5a6672" transform="rotate(-90 16 195)">该步边际增益（人）</text>
+<text x="66" y="40" font-family="system-ui,sans-serif" font-size="9.5" fill="#6b7883">K=6 时总覆盖 17 人，随机选仅 12 人</text>
+<polyline points="66.0,118.6 183.6,121.5 301.2,208.2 418.8,300.8 536.4,277.3 654.0,325.8" fill="none" stroke="#8C1A2E" stroke-width="2.2" stroke-linejoin="round"/>
+<circle cx="66.0" cy="118.6" r="3" fill="#fff" stroke="#8C1A2E" stroke-width="1.8"/>
+<circle cx="183.6" cy="121.5" r="3" fill="#fff" stroke="#8C1A2E" stroke-width="1.8"/>
+<circle cx="301.2" cy="208.2" r="3" fill="#fff" stroke="#8C1A2E" stroke-width="1.8"/>
+<circle cx="418.8" cy="300.8" r="3" fill="#fff" stroke="#8C1A2E" stroke-width="1.8"/>
+<circle cx="536.4" cy="277.3" r="3" fill="#fff" stroke="#8C1A2E" stroke-width="1.8"/>
+<circle cx="654.0" cy="325.8" r="3" fill="#fff" stroke="#8C1A2E" stroke-width="1.8"/>
+<text x="66.0" y="357" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9.5" fill="#5a6672">1</text>
+<text x="183.6" y="357" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9.5" fill="#5a6672">2</text>
+<text x="301.2" y="357" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9.5" fill="#5a6672">3</text>
+<text x="418.8" y="357" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9.5" fill="#5a6672">4</text>
+<text x="536.4" y="357" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9.5" fill="#5a6672">5</text>
+<text x="654.0" y="357" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9.5" fill="#5a6672">6</text>
+</svg>
