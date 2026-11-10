@@ -29,6 +29,8 @@ TARGETS = [
     ('rec_seq_sasrec', 'rec_seq_sasrec.py'),
     ('rec_bandit', 'rec_bandit.py'),
     ('aigc_diffusion', 'aigc_diffusion.py'),
+    ('rev_group_fraud', 'rev_group_fraud.py'),
+    ('rev_feature_layers', 'rev_feature_layers.py'),
 ]
 
 
