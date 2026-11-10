@@ -31,6 +31,12 @@ TARGETS = [
     ('aigc_diffusion', 'aigc_diffusion.py'),
     ('rev_group_fraud', 'rev_group_fraud.py'),
     ('rev_feature_layers', 'rev_feature_layers.py'),
+    ('loc_term_consistency', 'loc_term_consistency.py'),
+    ('loc_quality_eval', 'loc_quality_eval.py'),
+    ('mkt_attribution', 'mkt_attribution.py'),
+    ('mkt_incrementality', 'mkt_incrementality.py'),
+    ('comp_risk_scan', 'comp_risk_scan.py'),
+    ('mkt_mmm', 'mkt_mmm.py'),
 ]
 
 
