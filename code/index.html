@@ -75,9 +75,9 @@
   </header>
 
   <main class="doc">
-    <p class="meta">COURSE PROGRAMS · 26 个程序 · 24 张可视化图</p>
+    <p class="meta">COURSE PROGRAMS · 20 个现行程序 ＋ 6 个历史版本 · 18 张可视化图</p>
     <h1>课程程序库</h1>
-    <p>这里放《智能贸易》各章用到的全部 26 个程序。每个算法程序都<strong>自带一张可视化图</strong>——
+    <p>这里放《智能贸易》各章的 20 个现行程序；第四章改版后的 6 个旧版算法程序保留在末尾「历史版本」区。每个算法程序都<strong>自带一张可视化图</strong>——
        图不是示意画，而是<strong>程序真实跑出来的输出</strong>；点开图可看原尺寸 SVG。</p>
     <p>课件里讲方法，这里给代码。看代码不是目的，<strong>改参数、看输出怎么变</strong>才是。</p>
 
@@ -98,7 +98,7 @@
     </div>
 
     <h2 id="pick">程序索引与可视化</h2>
-    <p>26 个程序分九组。24 个算法程序的图由各自的 <code>save_visual()</code> 生成，
+    <p>20 个现行程序分八组（另有第四章 6 个历史版本程序保留在末尾）。18 个算法程序的图由各自的 <code>save_visual()</code> 生成，
        统一用 <code>chartlib.py</code>（纯标准库画 SVG，不依赖 matplotlib），
        运行 <code>python gen_visuals.py</code> 可一次性重新生成 <code>visuals/*.svg</code>。</p>
     <h2>模块三 · 市场调研与客户开发</h2>
@@ -466,7 +466,7 @@
     </div>
 
     <h2 id="algo-list">算法清单与训练资源</h2>
-    <p>这一节对应课件第二章第 4、6、7、9、10 节、第三章第 4、5、6、8 节与第四章第 3、4、5、7 节：<strong>三类算法的每一个算法</strong>都配了数学公式与应用场景（见课件），
+    <p>这一节对应课件第二章第 4、6、7、9、10 节与第三章第 4、5、6、8 节（第四章已改为制度与实务，无算法清单）：<strong>三类算法的每一个算法</strong>都配了数学公式与应用场景（见课件），
        这里给出可执行的清单——<strong>哪个算法配哪个包、用哪个公开数据练</strong>。所有链接均为官方主页或官方仓库，课程不提供镜像。</p>
 
     <div class="note">
@@ -475,12 +475,19 @@
       数据集的许可各不相同，商用前务必读原始许可条款。
     </div>
 
-    <h2>本地化 · 评估 · 合规 · 模块五第四章</h2>
-    <p>六个程序各回答一个问题：术语会不会漂、译文好坏能不能自动判、换个口径结论变不变、小样本为什么测不出、规则为什么漏、加预算该加给谁。图为本程序实际输出。</p>
+    <h2>历史版本 · 模块五第四章（旧版算法程序，2024）</h2>
+    <div class="note">
+      <strong>为什么标注为「历史版本」：</strong>第四章已按教学要求重做，从「方法与算法」改为<strong>制度与实务</strong>（评价机制 · 合规七个面 · 六种模式 · 信息网络 · 合规系统 · 12 个真实案例）。
+      新版课件<strong>不再包含算法与公式</strong>，因此这 6 个程序已不再对应现行课件内容。
+      保留在此的原因：已经下载过的同学仍然可以找到；其中「五法归因」「样本量与功效」两个程序的思路，在新版第 2 节仍以「同一批数据四种结论」的形式出现。
+      如果只需要现行内容，直接跳过本组即可。
+    </div>
+    <p>这六个程序各回答一个问题：术语会不会漂、译文好坏能不能自动判、换个口径结论变不变、小样本为什么测不出、规则为什么漏、加预算该加给谁。图为本程序实际输出。</p>
     <div class="prog-grid">
       <article class="prog" id="loc_term_consistency">
         <a class="viz" href="visuals/loc_term_consistency.svg" target="_blank" rel="noreferrer"><img src="visuals/loc_term_consistency.svg" alt="术语一致性：约束替换与一致率 的可视化输出" loading="lazy"></a>
         <div class="fn">loc_term_consistency.py</div>
+        <p style="color:#8A6A12;font-size:.78em;margin:.2em 0 .4em">旧版 · 第四章已改版，本程序不再对应现行课件</p>
         <h3>术语一致性：约束替换与一致率</h3>
         <p>三版文案（未约束／半约束／全约束）对比术语一致率，并对违规版应用术语表做强制替换，演示「只写表不执行等于没写」。</p>
         <dl>
@@ -495,6 +502,7 @@
       <article class="prog" id="loc_quality_eval">
         <a class="viz" href="visuals/loc_quality_eval.svg" target="_blank" rel="noreferrer"><img src="visuals/loc_quality_eval.svg" alt="翻译质量评估：BLEU 分解与数字回填 的可视化输出" loading="lazy"></a>
         <div class="fn">loc_quality_eval.py</div>
+        <p style="color:#8A6A12;font-size:.78em;margin:.2em 0 .4em">旧版 · 第四章已改版，本程序不再对应现行课件</p>
         <h3>翻译质量评估：BLEU 分解与数字回填</h3>
         <p>四版译文对比：忠实用词、同义改写、词序打乱、数字写错。演示 BLEU 惩罚改写、词序归零，以及「12 小时写成 24 小时」BLEU 只掉一点的危险。</p>
         <dl>
@@ -509,6 +517,7 @@
       <article class="prog" id="mkt_attribution">
         <a class="viz" href="visuals/mkt_attribution.svg" target="_blank" rel="noreferrer"><img src="visuals/mkt_attribution.svg" alt="五种归因：同一批数据，五个结论 的可视化输出" loading="lazy"></a>
         <div class="fn">mkt_attribution.py</div>
+        <p style="color:#8A6A12;font-size:.78em;margin:.2em 0 .4em">旧版 · 第四章已改版，本程序不再对应现行课件</p>
         <h3>五种归因：同一批数据，五个结论</h3>
         <p>用讲义里的 10 条路径，跑首次／末次／线性／马尔可夫／Shapley 五种方法，展示「口径决定名次，不是数据决定名次」。</p>
         <dl>
@@ -523,6 +532,7 @@
       <article class="prog" id="mkt_incrementality">
         <a class="viz" href="visuals/mkt_incrementality.svg" target="_blank" rel="noreferrer"><img src="visuals/mkt_incrementality.svg" alt="增量实验：样本量、功效与置信区间 的可视化输出" loading="lazy"></a>
         <div class="fn">mkt_incrementality.py</div>
+        <p style="color:#8A6A12;font-size:.78em;margin:.2em 0 .4em">旧版 · 第四章已改版，本程序不再对应现行课件</p>
         <h3>增量实验：样本量、功效与置信区间</h3>
         <p>算出检测 5%/10%/20% 提升各需多少样本，模拟不同样本量下的检出概率，并演示「小样本不显著但真实提升存在」。</p>
         <dl>
@@ -537,6 +547,7 @@
       <article class="prog" id="comp_risk_scan">
         <a class="viz" href="visuals/comp_risk_scan.svg" target="_blank" rel="noreferrer"><img src="visuals/comp_risk_scan.svg" alt="合规风险扫描：规则 + 语义两级 的可视化输出" loading="lazy"></a>
         <div class="fn">comp_risk_scan.py</div>
+        <p style="color:#8A6A12;font-size:.78em;margin:.2em 0 .4em">旧版 · 第四章已改版，本程序不再对应现行课件</p>
         <h3>合规风险扫描：规则 + 语义两级</h3>
         <p>八条商品文案过两级扫描：规则抓禁用词与绝对化用语，语义抓同义改写（「没有别的能比」）。并演示语义分未过阈值时的处理。</p>
         <dl>
@@ -551,6 +562,7 @@
       <article class="prog" id="mkt_mmm">
         <a class="viz" href="visuals/mkt_mmm.svg" target="_blank" rel="noreferrer"><img src="visuals/mkt_mmm.svg" alt="MMM 营销组合模型：加预算该加给谁 的可视化输出" loading="lazy"></a>
         <div class="fn">mkt_mmm.py</div>
+        <p style="color:#8A6A12;font-size:.78em;margin:.2em 0 .4em">旧版 · 第四章已改版，本程序不再对应现行课件</p>
         <h3>MMM 营销组合模型：加预算该加给谁</h3>
         <p>把销量拆成「基线 + 两渠道 + 季节」，用 Adstock 刻画延迟、Hill 刻画饱和，再按「每单位投放的边际销量」比较两个渠道。</p>
         <dl>
@@ -692,7 +704,7 @@
       <strong>结构检测的思路</strong>，不是原算法——请勿把它当作 FRAUDAR 的复现。
     </div>
 
-    <h3 class="sub">清单七 · 第四章 本地化／评估／合规算法</h3>
+    <h3 class="sub">清单七 · 第四章旧版算法（历史版本，现行课件已不含算法）</h3>
     <div class="tbl-wrap">
       <table class="algo-tbl">
         <thead><tr><th>类</th><th>算法</th><th>核心公式</th><th>配套程序</th></tr></thead>
