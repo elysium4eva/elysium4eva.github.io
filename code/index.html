@@ -75,9 +75,9 @@
   </header>
 
   <main class="doc">
-    <p class="meta">COURSE PROGRAMS · 18 个程序 · 16 张可视化图</p>
+    <p class="meta">COURSE PROGRAMS · 20 个程序 · 18 张可视化图</p>
     <h1>课程程序库</h1>
-    <p>这里放《智能贸易》各章用到的全部 18 个程序。每个算法程序都<strong>自带一张可视化图</strong>——
+    <p>这里放《智能贸易》各章用到的全部 20 个程序。每个算法程序都<strong>自带一张可视化图</strong>——
        图不是示意画，而是<strong>程序真实跑出来的输出</strong>；点开图可看原尺寸 SVG。</p>
     <p>课件里讲方法，这里给代码。看代码不是目的，<strong>改参数、看输出怎么变</strong>才是。</p>
 
@@ -98,7 +98,7 @@
     </div>
 
     <h2 id="pick">程序索引与可视化</h2>
-    <p>18 个程序分七组。16 个算法程序的图由各自的 <code>save_visual()</code> 生成，
+    <p>20 个程序分八组。18 个算法程序的图由各自的 <code>save_visual()</code> 生成，
        统一用 <code>chartlib.py</code>（纯标准库画 SVG，不依赖 matplotlib），
        运行 <code>python gen_visuals.py</code> 可一次性重新生成 <code>visuals/*.svg</code>。</p>
     <h2>模块三 · 市场调研与客户开发</h2>
@@ -258,7 +258,44 @@
       </article>
     </div>
 
-    <h2>内容生成 · 模块五第二章 §8</h2>
+    <h2>平台机制与群组检测 · 模块五第二章 §7</h2>
+    <p>两个程序回答同一个问题：单条评论分类为什么抓不到刷评群组，结构检测又为什么能。图为本程序实际输出。</p>
+    <div class="prog-grid">
+      <article class="prog" id="rev_group_fraud">
+        <a class="viz" href="visuals/rev_group_fraud.svg" target="_blank" rel="noreferrer"><img src="visuals/rev_group_fraud.svg" alt="群组刷评检测的可视化输出" loading="lazy"></a>
+        <div class="fn">rev_group_fraud.py</div>
+        <h3>群组刷评检测：单条分类 vs 结构检测</h3>
+        <p>构造「用户—商品」二部图并注入刷评群组（成员重叠、目标集中、时间集中）。先用单条特征分类，再用共评用户图 + 连通分量检测，对比召回率。</p>
+        <dl>
+          <dt>输入</dt><dd>合成二部图（可替换为真实评论关系）</dd>
+          <dt>输出</dt><dd>单条分类 AUC／精确率／召回率；检出群组、共同商品、精确率与召回率</dd>
+          <dt>依赖</dt><dd>numpy</dd>
+          <dt>章节</dt><dd>§7 GSRank／FRAUDAR 思路</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/rev_group_fraud.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="rev_group_fraud.py" download>下载</a>
+        </div>
+      </article>
+      <article class="prog" id="rev_feature_layers">
+        <a class="viz" href="visuals/rev_feature_layers.svg" target="_blank" rel="noreferrer"><img src="visuals/rev_feature_layers.svg" alt="三层特征增量的可视化输出" loading="lazy"></a>
+        <div class="fn">rev_feature_layers.py</div>
+        <h3>三层特征体系：语言 → 行为 → 图结构</h3>
+        <p>虚假评论的语言层与行为层刻意与真实评论同分布，只在图结构上留痕；分别训练三层累加模型，比较 AUC 与前 30% 召回率。</p>
+        <dl>
+          <dt>输入</dt><dd>合成评论数据（三层特征可复现）</dd>
+          <dt>输出</dt><dd>各层单独判别力、三层累加的 AUC 与召回率</dd>
+          <dt>依赖</dt><dd>numpy</dd>
+          <dt>章节</dt><dd>§7 特征工程三层体系</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/rev_feature_layers.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="rev_feature_layers.py" download>下载</a>
+        </div>
+      </article>
+    </div>
+
+    <h2>内容生成 · 模块五第二章 §9</h2>
     <p>从模板到评估，图为本程序实际输出。</p>
     <div class="prog-grid">
       <article class="prog" id="content_generate">
@@ -429,7 +466,7 @@
     </div>
 
     <h2 id="algo-list">算法清单与训练资源</h2>
-    <p>这一节对应课件第二章第 4、6、8、9 节与第三章第 4、5、6、8 节：<strong>三类算法的每一个算法</strong>都配了数学公式与应用场景（见课件），
+    <p>这一节对应课件第二章第 4、6、7、9、10 节与第三章第 4、5、6、8 节：<strong>三类算法的每一个算法</strong>都配了数学公式与应用场景（见课件），
        这里给出可执行的清单——<strong>哪个算法配哪个包、用哪个公开数据练</strong>。所有链接均为官方主页或官方仓库，课程不提供镜像。</p>
 
     <div class="note">
@@ -547,6 +584,25 @@
         </tbody>
       </table>
     </div>
+    <h3 class="sub">清单六 · 第二章 §7 平台机制与群组检测</h3>
+    <div class="tbl-wrap">
+      <table class="algo-tbl">
+        <thead><tr><th>层</th><th>机制／算法</th><th>能做什么</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td><b>交易层</b></td><td>Verified Purchase（亚马逊）／真实预订锚定（Airbnb）</td><td>用真实交易给评论「上锚」</td><td>验证的是交易真实性，不是内容真实性</td></tr>
+          <tr><td><b>群体层</b></td><td>有用性投票</td><td>用群体判断把有效评论顶上来</td><td>筛的是「感知有用性」，有负向偏差</td></tr>
+          <tr><td><b>流程层</b></td><td>双盲评价（14 天窗口）</td><td>压缩报复与协商的空间</td><td>不判真假，直接消除作弊路径</td></tr>
+          <tr><td><b>结构层</b></td><td>GSRank／FRAUDAR／CARE-GNN／PC-GNN</td><td>检测群组协同与二部图异常块</td><td>GSRank／FRAUDAR 无官方实现，需按论文自实现</td></tr>
+          <tr><td><b>工具</b></td><td>NetworkX、DGL、PyG、PyOD、imbalanced-learn、textstat、SHAP</td><td>构图、GNN、异常检测、可读性特征、可解释</td><td>按三层特征分层选用</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <strong>关于开源实现的诚实说明：</strong>GSRank 与 FRAUDAR <strong>没有官方维护的实现</strong>，社区复现质量不一。
+      本课程的 <code>rev_group_fraud.py</code> 是「共评用户图 + 连通分量」的教学实现，演示的是
+      <strong>结构检测的思路</strong>，不是原算法——请勿把它当作 FRAUDAR 的复现。
+    </div>
+
     <div class="note">
       <strong>一个四周训练路线：</strong>① 跑通数据（下载一个品类 + UCI 零售，清洗并画分布）→
       ② 类一＋类三（聚类找空档、TOPSIS 排序、敏感性分析）→
