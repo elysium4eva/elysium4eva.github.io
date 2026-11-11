@@ -475,77 +475,77 @@
       数据集的许可各不相同，商用前务必读原始许可条款。
     </div>
 
-    <h2>算法最小实现 · 模块五第四章 §9</h2>
-    <p>五个算法各用「极简数据 + 可跑程序 + 一张可视化」讲清原理。数据小到能手算，代码短到能改写；图为本程序的实际输出，已同步嵌入课件。</p>
+    <h2>算法最小实现 · 模块五第三章 §4–§6</h2>
+    <p>五个算法各用「极简数据 + 可跑程序 + 一张可视化」讲清原理。数据小到能手算，代码短到能改写；图为本程序的实际输出，已同步嵌入第三章课件对应算法页之后。</p>
     <div class="prog-grid">
-      <article class="prog" id="ch4_influence_greedy">
-        <a class="viz" href="visuals/ch4_influence_greedy.png" target="_blank" rel="noreferrer"><img src="visuals/ch4_influence_greedy.png" alt="影响力最大化：贪心为什么比「朋友最多」更好 的可视化输出" loading="lazy"></a>
-        <div class="fn">ch4_influence_greedy.py</div>
+      <article class="prog" id="ch3_influence_greedy">
+        <a class="viz" href="visuals/ch3_influence_greedy.png" target="_blank" rel="noreferrer"><img src="visuals/ch3_influence_greedy.png" alt="影响力最大化：贪心为什么比「朋友最多」更好 的可视化输出" loading="lazy"></a>
+        <div class="fn">ch3_influence_greedy.py</div>
         <h3>影响力最大化：贪心为什么比「朋友最多」更好</h3>
         <p>8 节点小网络、IC 传播模型、200 次模拟。对比贪心（逐轮选边际增益最大）、按度数、随机三种选法的期望触达。</p>
         <dl>
           <dt>输入</dt><dd>8 节点 13 条边，含传播概率</dd><dt>输出</dt><dd>种子集与期望触达；每轮边际增益</dd><dt>依赖</dt><dd>numpy、viz_png</dd>
-          <dt>章节</dt><dd>§9 算法一</dd>
+          <dt>章节</dt><dd>§4 算法 4-1</dd>
         </dl>
         <div class="src">
-          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/ch4_influence_greedy.py" target="_blank" rel="noreferrer">源码 ↗</a>
-          · <a href="ch4_influence_greedy.py" download>下载</a>
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/ch3_influence_greedy.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="ch3_influence_greedy.py" download>下载</a>
         </div>
       </article>
-      <article class="prog" id="ch4_rec_netflix">
-        <a class="viz" href="visuals/ch4_rec_netflix.png" target="_blank" rel="noreferrer"><img src="visuals/ch4_rec_netflix.png" alt="推荐算法：协同过滤（Netflix Prize 背景） 的可视化输出" loading="lazy"></a>
-        <div class="fn">ch4_rec_netflix.py</div>
+      <article class="prog" id="ch3_rec_netflix">
+        <a class="viz" href="visuals/ch3_rec_netflix.png" target="_blank" rel="noreferrer"><img src="visuals/ch3_rec_netflix.png" alt="推荐算法：协同过滤（Netflix Prize 背景） 的可视化输出" loading="lazy"></a>
+        <div class="fn">ch3_rec_netflix.py</div>
         <h3>推荐算法：协同过滤（Netflix Prize 背景）</h3>
         <p>6 用户 × 6 电影的极小评分矩阵，UserCF 与 ItemCF 各预测两个空格，并用留一法算 RMSE。附 Netflix Prize 的提出背景。</p>
         <dl>
           <dt>输入</dt><dd>6×6 评分矩阵（含 11 个空格）</dd><dt>输出</dt><dd>两种预测值、相似邻居、留一法 RMSE</dd><dt>依赖</dt><dd>numpy、viz_png</dd>
-          <dt>章节</dt><dd>§9 算法二</dd>
+          <dt>章节</dt><dd>§5 算法 5-1（含 Netflix Prize 背景）</dd>
         </dl>
         <div class="src">
-          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/ch4_rec_netflix.py" target="_blank" rel="noreferrer">源码 ↗</a>
-          · <a href="ch4_rec_netflix.py" download>下载</a>
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/ch3_rec_netflix.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="ch3_rec_netflix.py" download>下载</a>
         </div>
       </article>
-      <article class="prog" id="ch4_rec_sequence">
-        <a class="viz" href="visuals/ch4_rec_sequence.png" target="_blank" rel="noreferrer"><img src="visuals/ch4_rec_sequence.png" alt="序列推荐：看「上一步」还是看「全局」 的可视化输出" loading="lazy"></a>
-        <div class="fn">ch4_rec_sequence.py</div>
+      <article class="prog" id="ch3_rec_sequence">
+        <a class="viz" href="visuals/ch3_rec_sequence.png" target="_blank" rel="noreferrer"><img src="visuals/ch3_rec_sequence.png" alt="序列推荐：看「上一步」还是看「全局」 的可视化输出" loading="lazy"></a>
+        <div class="fn">ch3_rec_sequence.py</div>
         <h3>序列推荐：看「上一步」还是看「全局」</h3>
         <p>15 条训练序列建一阶转移矩阵，预测「看过充电线之后买什么」；对比序列模型与热门基线的排序。</p>
         <dl>
           <dt>输入</dt><dd>15 条序列、6 个商品</dd><dt>输出</dt><dd>转移矩阵、两种排序、命中名次</dd><dt>依赖</dt><dd>numpy、viz_png</dd>
-          <dt>章节</dt><dd>§9 算法三</dd>
+          <dt>章节</dt><dd>§5 算法 5-4</dd>
         </dl>
         <div class="src">
-          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/ch4_rec_sequence.py" target="_blank" rel="noreferrer">源码 ↗</a>
-          · <a href="ch4_rec_sequence.py" download>下载</a>
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/ch3_rec_sequence.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="ch3_rec_sequence.py" download>下载</a>
         </div>
       </article>
-      <article class="prog" id="ch4_rec_graph">
-        <a class="viz" href="visuals/ch4_rec_graph.png" target="_blank" rel="noreferrer"><img src="visuals/ch4_rec_graph.png" alt="图推荐：两层传播 = 数「二跳路径」 的可视化输出" loading="lazy"></a>
-        <div class="fn">ch4_rec_graph.py</div>
+      <article class="prog" id="ch3_rec_graph">
+        <a class="viz" href="visuals/ch3_rec_graph.png" target="_blank" rel="noreferrer"><img src="visuals/ch3_rec_graph.png" alt="图推荐：两层传播 = 数「二跳路径」 的可视化输出" loading="lazy"></a>
+        <div class="fn">ch3_rec_graph.py</div>
         <h3>图推荐：两层传播 = 数「二跳路径」</h3>
         <p>4 用户 × 5 商品的二部图，用 LightGCN 归一化展开式做两层传播，打印每条二跳路径与推荐排序。</p>
         <dl>
           <dt>输入</dt><dd>4 用户 × 5 商品、9 条交互</dd><dt>输出</dt><dd>用户间权重、商品得分、路径明细</dd><dt>依赖</dt><dd>numpy、viz_png</dd>
-          <dt>章节</dt><dd>§9 算法四</dd>
+          <dt>章节</dt><dd>§5 算法 5-5</dd>
         </dl>
         <div class="src">
-          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/ch4_rec_graph.py" target="_blank" rel="noreferrer">源码 ↗</a>
-          · <a href="ch4_rec_graph.py" download>下载</a>
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/ch3_rec_graph.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="ch3_rec_graph.py" download>下载</a>
         </div>
       </article>
-      <article class="prog" id="ch4_diffusion_2d">
-        <a class="viz" href="visuals/ch4_diffusion_2d.png" target="_blank" rel="noreferrer"><img src="visuals/ch4_diffusion_2d.png" alt="二维扩散：从噪声里「长」出一个 3 的可视化输出" loading="lazy"></a>
-        <div class="fn">ch4_diffusion_2d.py</div>
+      <article class="prog" id="ch3_diffusion_2d">
+        <a class="viz" href="visuals/ch3_diffusion_2d.png" target="_blank" rel="noreferrer"><img src="visuals/ch3_diffusion_2d.png" alt="二维扩散：从噪声里「长」出一个 3 的可视化输出" loading="lazy"></a>
+        <div class="fn">ch3_diffusion_2d.py</div>
         <h3>二维扩散：从噪声里「长」出一个 3</h3>
         <p>240 个二维点组成的「3」，前向加噪 60 步；反向用「核密度分数 + 退火朗之万」采样 25 级，Chamfer 从 0.256 降到 0.024。</p>
         <dl>
           <dt>输入</dt><dd>240 个二维点（Catmull-Rom 折线）</dd><dt>输出</dt><dd>五帧采样图、Chamfer 轨迹</dd><dt>依赖</dt><dd>numpy、viz_png</dd>
-          <dt>章节</dt><dd>§9 算法五</dd>
+          <dt>章节</dt><dd>§6 算法 6-1</dd>
         </dl>
         <div class="src">
-          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/ch4_diffusion_2d.py" target="_blank" rel="noreferrer">源码 ↗</a>
-          · <a href="ch4_diffusion_2d.py" download>下载</a>
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/ch3_diffusion_2d.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="ch3_diffusion_2d.py" download>下载</a>
         </div>
       </article>
     </div>
