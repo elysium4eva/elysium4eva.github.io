@@ -75,9 +75,9 @@
   </header>
 
   <main class="doc">
-    <p class="meta">COURSE PROGRAMS · 25 个现行程序 ＋ 6 个历史版本 · 23 张可视化图</p>
+    <p class="meta">COURSE PROGRAMS · 31 个现行程序 ＋ 6 个历史版本 · 29 张可视化图</p>
     <h1>课程程序库</h1>
-    <p>这里放《智能贸易》各章的 25 个现行程序；第四章旧版 6 个算法程序保留在末尾「历史版本」区。每个算法程序都<strong>自带一张可视化图</strong>——
+    <p>这里放《智能贸易》各章的 31 个现行程序；第四章旧版 6 个算法程序保留在末尾「历史版本」区。每个算法程序都<strong>自带一张可视化图</strong>——
        图不是示意画，而是<strong>程序真实跑出来的输出</strong>；点开图可看原尺寸 SVG。</p>
     <p>课件里讲方法，这里给代码。看代码不是目的，<strong>改参数、看输出怎么变</strong>才是。</p>
 
@@ -98,7 +98,7 @@
     </div>
 
     <h2 id="pick">程序索引与可视化</h2>
-    <p>25 个现行程序分九组（另有第四章 6 个历史版本程序保留在末尾）。23 个算法程序的图由各自的 <code>save_visual()</code> 或 <code>save_png()</code> 生成，
+    <p>31 个现行程序分十组（另有第四章 6 个历史版本程序保留在末尾）。29 个算法程序的图由各自的 <code>save_visual()</code> 或 <code>save_png()</code> 生成，
        统一用 <code>chartlib.py</code>（纯标准库画 SVG，不依赖 matplotlib），
        运行 <code>python gen_visuals.py</code> 可一次性重新生成 <code>visuals/*.svg</code>。</p>
     <h2>模块三 · 市场调研与客户开发</h2>
@@ -546,6 +546,95 @@
         <div class="src">
           <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/ch3_diffusion_2d.py" target="_blank" rel="noreferrer">源码 ↗</a>
           · <a href="ch3_diffusion_2d.py" download>下载</a>
+        </div>
+      </article>
+    </div>
+
+    <h2>智能客服与客户关系 · 模块六</h2>
+    <p>六个程序各回答一个问题：意图为什么会混、检索怎么拒答、多轮怎么记住、客诉先处理谁、客户怎么分层、NPS 能不能比。图为本程序的实际输出，已同步嵌入课件。</p>
+    <div class="prog-grid">
+      <article class="prog" id="cs_intent_classify">
+        <a class="viz" href="visuals/cs_intent_classify.png" target="_blank" rel="noreferrer"><img src="visuals/cs_intent_classify.png" alt="意图识别：为什么「退货/换货」会混 的可视化输出" loading="lazy"></a>
+        <div class="fn">cs_intent_classify.py</div>
+        <h3>意图识别：为什么「退货/换货」会混</h3>
+        <p>25 条语料、5 个意图、字符 2-gram + 最近质心；10 条测试准确率 80%，混淆矩阵能看出混在哪。</p>
+        <dl>
+          <dt>输入</dt><dd>25 条标注语料 / 10 条测试</dd><dt>输出</dt><dd>混淆矩阵、逐句判定、次优意图</dd><dt>依赖</dt><dd>numpy、viz_png</dd>
+          <dt>章节</dt><dd>§6 自动回复与多轮对话</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/cs_intent_classify.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="cs_intent_classify.py" download>下载</a>
+        </div>
+      </article>
+      <article class="prog" id="cs_kb_rag_retrieval">
+        <a class="viz" href="visuals/cs_kb_rag_retrieval.png" target="_blank" rel="noreferrer"><img src="visuals/cs_kb_rag_retrieval.png" alt="知识库检索：混合打分与拒答阈值 的可视化输出" loading="lazy"></a>
+        <div class="fn">cs_kb_rag_retrieval.py</div>
+        <h3>知识库检索：混合打分与拒答阈值</h3>
+        <p>12 条带元数据的知识，稀疏（2-gram）与稠密（单字）各建词表，融合后按阈值拒答。不可答的问题被正确拒掉。</p>
+        <dl>
+          <dt>输入</dt><dd>12 条知识 / 6 个查询（含 1 个不可答）</dd><dt>输出</dt><dd>Top-3、稀疏/稠密分量、拒答判定</dd><dt>依赖</dt><dd>numpy、viz_png</dd>
+          <dt>章节</dt><dd>§4 RAG 基础</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/cs_kb_rag_retrieval.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="cs_kb_rag_retrieval.py" download>下载</a>
+        </div>
+      </article>
+      <article class="prog" id="cs_dialog_state">
+        <a class="viz" href="visuals/cs_dialog_state.png" target="_blank" rel="noreferrer"><img src="visuals/cs_dialog_state.png" alt="多轮状态机：每轮只推进一格 的可视化输出" loading="lazy"></a>
+        <div class="fn">cs_dialog_state.py</div>
+        <h3>多轮状态机：每轮只推进一格</h3>
+        <p>4 个槽位、5 个状态、3 个分支，6 轮对话；客户第 6 轮情绪爆发时正确升级并交接已填槽位。</p>
+        <dl>
+          <dt>输入</dt><dd>6 轮客户话语（含一次不配合）</dd><dt>输出</dt><dd>逐轮状态、槽位进度、走向与交接内容</dd><dt>依赖</dt><dd>viz_png</dd>
+          <dt>章节</dt><dd>§6 自动回复与多轮对话</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/cs_dialog_state.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="cs_dialog_state.py" download>下载</a>
+        </div>
+      </article>
+      <article class="prog" id="cs_complaint_triage">
+        <a class="viz" href="visuals/cs_complaint_triage.png" target="_blank" rel="noreferrer"><img src="visuals/cs_complaint_triage.png" alt="客诉分级：情绪 ≠ 严重度 的可视化输出" loading="lazy"></a>
+        <div class="fn">cs_complaint_triage.py</div>
+        <h3>客诉分级：情绪 ≠ 严重度</h3>
+        <p>20 条客诉，情绪词表与严重度词表分开，按四象限排三档。5 条「语气平静但后果严重」被判 P1。</p>
+        <dl>
+          <dt>输入</dt><dd>20 条客诉文本</dd><dt>输出</dt><dd>情绪分、严重度、象限、P1/P2/P3</dd><dt>依赖</dt><dd>viz_png</dd>
+          <dt>章节</dt><dd>§7 客诉识别与售后补救</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/cs_complaint_triage.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="cs_complaint_triage.py" download>下载</a>
+        </div>
+      </article>
+      <article class="prog" id="cs_rfm_segment">
+        <a class="viz" href="visuals/cs_rfm_segment.png" target="_blank" rel="noreferrer"><img src="visuals/cs_rfm_segment.png" alt="RFM 分层：八个分群与 K-means 对比 的可视化输出" loading="lazy"></a>
+        <div class="fn">cs_rfm_segment.py</div>
+        <h3>RFM 分层：八个分群与 K-means 对比</h3>
+        <p>30 个客户按中位数分档成八群，再标准化后用 K-means 聚四类，对比「规则分箱」与「数据聚类」。</p>
+        <dl>
+          <dt>输入</dt><dd>30 个客户的 R/F/M</dd><dt>输出</dt><dd>八群人数、K-means 群心、两者差异</dd><dt>依赖</dt><dd>numpy、viz_png</dd>
+          <dt>章节</dt><dd>§8 CRM 与客户分层</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/cs_rfm_segment.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="cs_rfm_segment.py" download>下载</a>
+        </div>
+      </article>
+      <article class="prog" id="cs_nps_csat">
+        <a class="viz" href="visuals/cs_nps_csat.png" target="_blank" rel="noreferrer"><img src="visuals/cs_nps_csat.png" alt="NPS 与 CSAT：点值、区间与两组比较 的可视化输出" loading="lazy"></a>
+        <div class="fn">cs_nps_csat.py</div>
+        <h3>NPS 与 CSAT：点值、区间与两组比较</h3>
+        <p>两组各 200 份样本，算 NPS/CSAT 并给 95% 置信区间；差 7.5 分但区间重叠 → 不可判定。</p>
+        <dl>
+          <dt>输入</dt><dd>两组各 200 份问卷</dd><dt>输出</dt><dd>NPS/CSAT 点值与区间、是否可判定、样本量影响</dd><dt>依赖</dt><dd>numpy、viz_png</dd>
+          <dt>章节</dt><dd>§9 服务质量评价</dd>
+        </dl>
+        <div class="src">
+          <a href="https://github.com/elysium4eva/elysium4eva.github.io/blob/main/code/cs_nps_csat.py" target="_blank" rel="noreferrer">源码 ↗</a>
+          · <a href="cs_nps_csat.py" download>下载</a>
         </div>
       </article>
     </div>
